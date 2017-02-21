@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0">
+
+    <xs:element name="User" type="user_uuid"/>
+
+    <xs:element name="Users" type="tUsers"/>
+
+    <xs:complexType name="tUsers">
+        <xs:sequence>
+            <xs:element ref="User" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="user_uuid">
+        <xs:sequence>
+            <xs:element name="login" type="xs:string" minOccurs="0"/>
+            <xs:element name="password" type="xs:string" minOccurs="0"/>
+            <xs:element name="email" type="xs:string" minOccurs="0"/>
+            <xs:element name="visible_name" type="xs:string" minOccurs="0"/>
+            <xs:element name="role" type="xs:long" minOccurs="0"/>
+            <xs:element name="enabled" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="userUuid" type="xs:string"/>
+    </xs:complexType>
+</xs:schema>
+

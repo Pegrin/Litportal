@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="litportal@localhost">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.0">
+    <root id="1"/>
+    <database id="2" parent="1" name="litportal">
+      <ObjectId>16493</ObjectId>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <schema id="3" parent="2" name="public">
+      <ObjectId>2200</ObjectId>
+      <IntrospectionTimestamp>2017-02-21.23:43:14.938</IntrospectionTimestamp>
+      <IntrospectionStateNumber>688</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="4" parent="2" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+    </schema>
+    <schema id="5" parent="2" name="pg_toast">
+      <ObjectId>99</ObjectId>
+    </schema>
+    <schema id="6" parent="2" name="pg_temp_1">
+      <ObjectId>11848</ObjectId>
+    </schema>
+    <schema id="7" parent="2" name="pg_toast_temp_1">
+      <ObjectId>11849</ObjectId>
+    </schema>
+    <schema id="8" parent="2" name="information_schema">
+      <ObjectId>12113</ObjectId>
+    </schema>
+    <table id="9" parent="3" name="comments">
+      <ObjectId>16582</ObjectId>
+      <StateNumber>685</StateNumber>
+    </table>
+    <table id="10" parent="3" name="groups">
+      <ObjectId>16555</ObjectId>
+      <StateNumber>669</StateNumber>
+    </table>
+    <table id="11" parent="3" name="posts">
+      <ObjectId>16533</ObjectId>
+      <StateNumber>680</StateNumber>
+    </table>
+    <table id="12" parent="3" name="users">
+      <ObjectId>16496</ObjectId>
+      <StateNumber>672</StateNumber>
+    </table>
+    <routine id="13" parent="3" name="uuid_generate_v1">
+      <ObjectId>16528</ObjectId>
+      <StateNumber>599</StateNumber>
+      <LanguageName>c</LanguageName>
+      <RoutineKind>function</RoutineKind>
+    </routine>
+    <routine id="14" parent="3" name="uuid_generate_v1mc">
+      <ObjectId>16529</ObjectId>
+      <StateNumber>599</StateNumber>
+      <LanguageName>c</LanguageName>
+      <RoutineKind>function</RoutineKind>
+    </routine>
+    <routine id="15" parent="3" name="uuid_generate_v3">
+      <ObjectId>16530</ObjectId>
+      <StateNumber>599</StateNumber>
+      <LanguageName>c</LanguageName>
+      <RoutineKind>function</RoutineKind>
+    </routine>
+    <routine id="16" parent="3" name="uuid_generate_v4">
+      <ObjectId>16531</ObjectId>
+      <StateNumber>599</StateNumber>
+      <LanguageName>c</LanguageName>
+      <RoutineKind>function</RoutineKind>
+    </routine>
+    <routine id="17" parent="3" name="uuid_generate_v5">
+      <ObjectId>16532</ObjectId>
+      <StateNumber>599</StateNumber>
+      <LanguageName>c</LanguageName>
+      <RoutineKind>function</RoutineKind>
+    </routine>
+    <routine id="18" parent="3" name="uuid_nil">
+      <ObjectId>16523</ObjectId>
+      <StateNumber>599</StateNumber>
+      <LanguageName>c</LanguageName>
+      <RoutineKind>function</RoutineKind>
+    </routine>
+    <routine id="19" parent="3" name="uuid_ns_dns">
+      <ObjectId>16524</ObjectId>
+      <StateNumber>599</StateNumber>
+      <LanguageName>c</LanguageName>
+      <RoutineKind>function</RoutineKind>
+    </routine>
+    <routine id="20" parent="3" name="uuid_ns_oid">
+      <ObjectId>16526</ObjectId>
+      <StateNumber>599</StateNumber>
+      <LanguageName>c</LanguageName>
+      <RoutineKind>function</RoutineKind>
+    </routine>
+    <routine id="21" parent="3" name="uuid_ns_url">
+      <ObjectId>16525</ObjectId>
+      <StateNumber>599</StateNumber>
+      <LanguageName>c</LanguageName>
+      <RoutineKind>function</RoutineKind>
+    </routine>
+    <routine id="22" parent="3" name="uuid_ns_x500">
+      <ObjectId>16527</ObjectId>
+      <StateNumber>599</StateNumber>
+      <LanguageName>c</LanguageName>
+      <RoutineKind>function</RoutineKind>
+    </routine>
+    <column id="23" parent="9" name="comment_uuid">
+      <Position>1</Position>
+      <DataType>uuid|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>637</StateNumber>
+      <DefaultExpression>uuid_generate_v4()</DefaultExpression>
+    </column>
+    <column id="24" parent="9" name="post_uuid">
+      <Position>2</Position>
+      <DataType>uuid|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>637</StateNumber>
+    </column>
+    <column id="25" parent="9" name="parent_comment_uuid">
+      <Position>4</Position>
+      <DataType>uuid|0</DataType>
+      <StateNumber>637</StateNumber>
+    </column>
+    <column id="26" parent="9" name="body">
+      <Position>5</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>637</StateNumber>
+    </column>
+    <column id="27" parent="9" name="date">
+      <Position>6</Position>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>686</StateNumber>
+      <DefaultExpression>now()</DefaultExpression>
+    </column>
+    <column id="28" parent="9" name="user_uuid">
+      <Position>7</Position>
+      <DataType>uuid|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>661</StateNumber>
+    </column>
+    <index id="29" parent="9" name="comments_comment_uuid_uindex">
+      <ObjectId>16592</ObjectId>
+      <ColNames>comment_uuid</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="30" parent="9" name="comments_pkey">
+      <ObjectId>16590</ObjectId>
+      <ColNames>comment_uuid</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="31" parent="9" name="comments_pkey">
+      <ObjectId>16591</ObjectId>
+      <ColNames>comment_uuid</ColNames>
+      <UnderlyingIndexName>comments_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="32" parent="9" name="comments_posts_post_uuid_fk">
+      <ObjectId>16656</ObjectId>
+      <ColNames>post_uuid</ColNames>
+      <RefTableName>posts</RefTableName>
+      <RefKeyName>posts_pkey</RefKeyName>
+      <RefColNames>post_uuid</RefColNames>
+    </foreign-key>
+    <foreign-key id="33" parent="9" name="comments_comments_comment_uuid_fk">
+      <ObjectId>16661</ObjectId>
+      <ColNames>parent_comment_uuid</ColNames>
+      <RefTableName>comments</RefTableName>
+      <RefKeyName>comments_pkey</RefKeyName>
+      <RefColNames>comment_uuid</RefColNames>
+    </foreign-key>
+    <foreign-key id="34" parent="9" name="comments_users_user_uuid_fk">
+      <ObjectId>16666</ObjectId>
+      <ColNames>user_uuid</ColNames>
+      <RefTableName>users</RefTableName>
+      <RefKeyName>users_user_uuid_uindex</RefKeyName>
+      <RefColNames>user_uuid</RefColNames>
+    </foreign-key>
+    <column id="35" parent="10" name="group_uuid">
+      <Position>1</Position>
+      <DataType>uuid|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>627</StateNumber>
+      <DefaultExpression>uuid_generate_v4()</DefaultExpression>
+    </column>
+    <column id="36" parent="10" name="parent_group_uuid">
+      <Position>2</Position>
+      <DataType>uuid|0</DataType>
+      <StateNumber>628</StateNumber>
+    </column>
+    <column id="37" parent="10" name="head">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>621</StateNumber>
+    </column>
+    <column id="38" parent="10" name="body">
+      <Position>4</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>621</StateNumber>
+    </column>
+    <index id="39" parent="10" name="groups_group_id_uindex">
+      <ObjectId>16564</ObjectId>
+      <ColNames>group_uuid</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="40" parent="10" name="groups_pkey">
+      <ObjectId>16562</ObjectId>
+      <ColNames>group_uuid</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="41" parent="10" name="groups_pkey">
+      <ObjectId>16563</ObjectId>
+      <ColNames>group_uuid</ColNames>
+      <UnderlyingIndexName>groups_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="42" parent="10" name="groups_groups_group_uuid_fk">
+      <ObjectId>16651</ObjectId>
+      <ColNames>parent_group_uuid</ColNames>
+      <RefTableName>groups</RefTableName>
+      <RefKeyName>groups_pkey</RefKeyName>
+      <RefColNames>group_uuid</RefColNames>
+    </foreign-key>
+    <column id="43" parent="11" name="post_uuid">
+      <Position>1</Position>
+      <DataType>uuid|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>624</StateNumber>
+      <DefaultExpression>uuid_generate_v4()</DefaultExpression>
+    </column>
+    <column id="44" parent="11" name="group_uuid">
+      <Position>2</Position>
+      <DataType>uuid|0</DataType>
+      <StateNumber>625</StateNumber>
+    </column>
+    <column id="45" parent="11" name="date">
+      <Position>6</Position>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>681</StateNumber>
+      <DefaultExpression>now()</DefaultExpression>
+    </column>
+    <column id="46" parent="11" name="head">
+      <Position>7</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>632</StateNumber>
+    </column>
+    <column id="47" parent="11" name="body">
+      <Position>8</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>633</StateNumber>
+    </column>
+    <column id="48" parent="11" name="new_body_request">
+      <Position>9</Position>
+      <DataType>text|0</DataType>
+      <StateNumber>634</StateNumber>
+    </column>
+    <column id="49" parent="11" name="commit">
+      <Position>10</Position>
+      <DataType>boolean|0</DataType>
+      <StateNumber>666</StateNumber>
+    </column>
+    <column id="50" parent="11" name="user_uuid">
+      <Position>11</Position>
+      <DataType>uuid|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>659</StateNumber>
+    </column>
+    <index id="51" parent="11" name="posts_pkey">
+      <ObjectId>16537</ObjectId>
+      <ColNames>post_uuid</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="52" parent="11" name="posts_uid_uindex">
+      <ObjectId>16539</ObjectId>
+      <ColNames>post_uuid</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="53" parent="11" name="posts_pkey">
+      <ObjectId>16538</ObjectId>
+      <ColNames>post_uuid</ColNames>
+      <UnderlyingIndexName>posts_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="54" parent="11" name="posts_groups_group_uuid_fk">
+      <ObjectId>16641</ObjectId>
+      <ColNames>group_uuid</ColNames>
+      <RefTableName>groups</RefTableName>
+      <RefKeyName>groups_pkey</RefKeyName>
+      <RefColNames>group_uuid</RefColNames>
+    </foreign-key>
+    <foreign-key id="55" parent="11" name="posts_users_user_uuid_fk">
+      <ObjectId>16646</ObjectId>
+      <ColNames>user_uuid</ColNames>
+      <RefTableName>users</RefTableName>
+      <RefKeyName>users_user_uuid_uindex</RefKeyName>
+      <RefColNames>user_uuid</RefColNames>
+    </foreign-key>
+    <column id="56" parent="12" name="login">
+      <Position>2</Position>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>611</StateNumber>
+    </column>
+    <column id="57" parent="12" name="password">
+      <Position>3</Position>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>597</StateNumber>
+    </column>
+    <column id="58" parent="12" name="role">
+      <Position>5</Position>
+      <DataType>smallint|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>608</StateNumber>
+      <DefaultExpression>1</DefaultExpression>
+    </column>
+    <column id="59" parent="12" name="email">
+      <Position>6</Position>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>612</StateNumber>
+    </column>
+    <column id="60" parent="12" name="visible_name">
+      <Position>7</Position>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>613</StateNumber>
+    </column>
+    <column id="61" parent="12" name="user_uuid">
+      <Position>8</Position>
+      <DataType>uuid|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>644</StateNumber>
+      <DefaultExpression>uuid_generate_v4()</DefaultExpression>
+    </column>
+    <index id="62" parent="12" name="users_login_uindex">
+      <ObjectId>16541</ObjectId>
+      <ColNames>login</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="63" parent="12" name="users_mail_uindex">
+      <ObjectId>16542</ObjectId>
+      <ColNames>email</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="64" parent="12" name="users_user_uuid_pk">
+      <ObjectId>16606</ObjectId>
+      <ColNames>user_uuid</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="65" parent="12" name="users_user_uuid_uindex">
+      <ObjectId>16605</ObjectId>
+      <ColNames>user_uuid</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="66" parent="12" name="users_user_uuid_pk">
+      <ObjectId>16607</ObjectId>
+      <ColNames>user_uuid</ColNames>
+      <UnderlyingIndexName>users_user_uuid_pk</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <argument id="67" parent="13">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>uuid|0</DataType>
+    </argument>
+    <argument id="68" parent="14">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>uuid|0</DataType>
+    </argument>
+    <argument id="69" parent="15" name="namespace">
+      <Position>1</Position>
+      <DataType>uuid|0</DataType>
+    </argument>
+    <argument id="70" parent="15" name="name">
+      <Position>2</Position>
+      <DataType>text|0</DataType>
+    </argument>
+    <argument id="71" parent="15">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>uuid|0</DataType>
+    </argument>
+    <argument id="72" parent="16">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>uuid|0</DataType>
+    </argument>
+    <argument id="73" parent="17" name="namespace">
+      <Position>1</Position>
+      <DataType>uuid|0</DataType>
+    </argument>
+    <argument id="74" parent="17" name="name">
+      <Position>2</Position>
+      <DataType>text|0</DataType>
+    </argument>
+    <argument id="75" parent="17">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>uuid|0</DataType>
+    </argument>
+    <argument id="76" parent="18">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>uuid|0</DataType>
+    </argument>
+    <argument id="77" parent="19">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>uuid|0</DataType>
+    </argument>
+    <argument id="78" parent="20">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>uuid|0</DataType>
+    </argument>
+    <argument id="79" parent="21">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>uuid|0</DataType>
+    </argument>
+    <argument id="80" parent="22">
+      <ArgumentDirection>R</ArgumentDirection>
+      <DataType>uuid|0</DataType>
+    </argument>
+  </database-model>
+</dataSource>

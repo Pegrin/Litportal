@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Users>
+    <User userUuid="076e6bff-0d4c-4087-837c-d0acdb9c0669">
+        <login>Шмегрин</login>
+        <password>asd222</password>
+        <email>shmegrin@mail.ru</email>
+        <visible_name>Виктор</visible_name>
+        <role>1</role>
+    </User>
+    <User userUuid="555d6bf9-8156-433f-be05-f2bd9aaad2a7">
+        <login>pegrin</login>
+        <password>asdasd</password>
+        <email>pegrin@mail.ru</email>
+        <visible_name>Марат</visible_name>
+        <role>4</role>
+    </User>
+    <User userUuid="79f009e6-8fa7-4226-9849-ebe7d854c05c">
+        <login>Пушкин</login>
+        <password>123213</password>
+        <email>pushkin@gmail.com</email>
+        <visible_name>Александр Сергеевич</visible_name>
+        <role>1</role>
+    </User>
+</Users>

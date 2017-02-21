@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="litportal@localhost" uuid="0f1825ff-11ae-44e0-b2fe-ff91ac39bb7b">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/litportal</jdbc-url>
+      <driver-properties>
+        <property name="postgres" value="password" />
+      </driver-properties>
+    </data-source>
+  </component>
+</project>
