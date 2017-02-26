@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class DBGroups extends DBTable<TGroups, TRGroups> {
@@ -20,7 +19,7 @@ public class DBGroups extends DBTable<TGroups, TRGroups> {
         PreparedStatement q = connection.prepareStatement("INSERT INTO groups " +
                 "(parent_group_uuid, head, body) " +
                 "VALUES (?, ?, ?) RETURNING group_uuid");
-        q.setString(1, parent_group_uuid);
+        q.setObject(1, UUID.fromString(parent_group_uuid));
         q.setString(2, head);
         q.setString(3, body);
         ResultSet set = q.executeQuery();
@@ -29,7 +28,7 @@ public class DBGroups extends DBTable<TGroups, TRGroups> {
     }
 
     @Override
-    public ResultSet getRowByID(String group_uuid) throws SQLException {
+    protected ResultSet getRowByID(String group_uuid) throws SQLException {
         PreparedStatement q = connection.prepareStatement("SELECT * FROM groups " +
                 "WHERE group_uuid = ?");
         UUID uuid = UUID.fromString(group_uuid);
@@ -39,7 +38,7 @@ public class DBGroups extends DBTable<TGroups, TRGroups> {
     }
 
     @Override
-    public TRGroups getObjectFromRS(ResultSet resultSet) throws SQLException {
+    protected TRGroups getObjectFromRS(ResultSet resultSet) throws SQLException {
         TRGroups group = new TRGroups();
         group.setGroup_uuid(resultSet.getString("group_uuid"));
         group.setParent_group_uuid(resultSet.getString("parent_group_uuid"));
@@ -49,7 +48,7 @@ public class DBGroups extends DBTable<TGroups, TRGroups> {
     }
 
     @Override
-    public PreparedStatement getFullInsertStatement() throws SQLException {
+    protected PreparedStatement getFullInsertStatement() throws SQLException {
         PreparedStatement q = connection.prepareStatement("INSERT INTO groups" +
                 " (group_uuid, parent_group_uuid, head, body)" +
                 " VALUES (?, ?, ?, ?) ON CONFLICT (group_uuid) DO NOTHING");
@@ -57,23 +56,12 @@ public class DBGroups extends DBTable<TGroups, TRGroups> {
     }
 
     @Override
-    public void setParamsForFullInsertStatement(TRGroups group, PreparedStatement q) throws SQLException {
-        q.setString(1, group.getGroup_uuid());
-        q.setString(2, group.getParent_group_uuid());
+    protected void setParamsForFullInsertStatement(TRGroups group, PreparedStatement q) throws SQLException {
+        q.setObject(1, UUID.fromString(group.getGroup_uuid()));
+        String s = group.getParent_group_uuid();
+        q.setObject(2, (s != null) ? UUID.fromString(s) : null);
         q.setString(3, group.getHead());
         q.setString(4, group.getBody());
         q.addBatch();
-    }
-
-    @Override
-    public TGroups getObjects(PreparedStatement q) throws SQLException {
-        TGroups groups = new TGroups();
-        groups.setListOfRows(new ArrayList<TRGroups>());
-        ResultSet resultSet = getRows();
-        while (resultSet.next()) {
-            TRGroups group = getObjectFromRS(resultSet);
-            groups.getListOfRows().add(group);
-        }
-        return groups;
     }
 }

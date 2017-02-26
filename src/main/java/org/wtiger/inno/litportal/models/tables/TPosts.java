@@ -2,23 +2,32 @@ package org.wtiger.inno.litportal.models.tables;
 
 import org.wtiger.inno.litportal.models.rows.TRPosts;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
+import javax.xml.bind.annotation.*;
+import java.util.ArrayDeque;
 
 @XmlRootElement(name = "Posts")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TPosts implements TTable<TRPosts> {
     @XmlElement(name = "Post")
-    private ArrayList<TRPosts> listOfRows = null;
+    private ArrayDeque<TRPosts> listOfRows = null;
+    @XmlTransient
+    private boolean ready = true;
 
-    public ArrayList<TRPosts> getListOfRows() {
+    @Override
+    public synchronized boolean isReady() {
+        return ready;
+    }
+
+    @Override
+    public synchronized void setReady(boolean ready) {
+        this.ready = ready;
+    }
+
+    public ArrayDeque<TRPosts> getListOfRows() {
         return listOfRows;
     }
 
-    public void setListOfRows(ArrayList<TRPosts> listOfRows) {
+    public void setListOfRows(ArrayDeque<TRPosts> listOfRows) {
         this.listOfRows = listOfRows;
     }
 }

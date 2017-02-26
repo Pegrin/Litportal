@@ -2,24 +2,33 @@ package org.wtiger.inno.litportal.models.tables;
 
 import org.wtiger.inno.litportal.models.rows.TRComments;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
+import javax.xml.bind.annotation.*;
+import java.util.ArrayDeque;
 
 
 @XmlRootElement(name = "Comments")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TComments implements TTable<TRComments> {
     @XmlElement(name = "Comment")
-    private ArrayList<TRComments> listOfRows = null;
+    private ArrayDeque<TRComments> listOfRows = null;
+    @XmlTransient
+    private boolean ready = true;
 
-    public ArrayList<TRComments> getListOfRows() {
+    @Override
+    public synchronized boolean isReady() {
+        return ready;
+    }
+
+    @Override
+    public synchronized void setReady(boolean ready) {
+        this.ready = ready;
+    }
+
+    public ArrayDeque<TRComments> getListOfRows() {
         return listOfRows;
     }
 
-    public void setListOfRows(ArrayList<TRComments> listOfRows) {
+    public void setListOfRows(ArrayDeque<TRComments> listOfRows) {
         this.listOfRows = listOfRows;
     }
 }

@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Post")
 @XmlType(propOrder = {"user_uuid", "group_uuid", "date", "commit"
         , "head", "body", "new_body_request", "author"})
-public class TRPosts {
+public class TRPosts implements TableRow {
     private String post_uuid;
     private String group_uuid;
     private java.util.Date date;

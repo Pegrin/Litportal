@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "Comment")
 @XmlType(propOrder = {"user_uuid", "post_uuid", "parent_comment_uuid", "date", "body"})
-public class TRComments {
+public class TRComments implements TableRow {
     private String comment_uuid;
     private String post_uuid;
     private String parent_comment_uuid;

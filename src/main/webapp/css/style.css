@@ -1,0 +1,31 @@
+body div {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 70%;
+}
+
+.topline {
+    background: #d1432c;
+    padding: 10px;
+    height: 20%;
+}
+
+.main {
+    padding: 10px;
+    float: left;
+
+}
+
+.bottomline {
+    background: #70d913;
+    padding: 10px;
+    clear: both;
+}
+
+.poststable {
+    border-width: 2px;
+}

@@ -5,7 +5,7 @@ import org.wtiger.inno.litportal.models.rows.TRUsers;
 import org.wtiger.inno.litportal.models.tables.TPosts;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.Date;
 import java.util.UUID;
 
@@ -19,18 +19,18 @@ public class DBPosts extends DBTable<TPosts, TRPosts> {
         PreparedStatement q = connection.prepareStatement("INSERT INTO " + tName + " " +
                 "(group_uuid, date, head, new_body_request, user_uuid) " +
                 "VALUES (?, ?, ?, ?, ?) RETURNING post_uuid");
-        q.setString(1, group_uuid);
-        q.setTimestamp(2, (Timestamp) date);
+        q.setObject(1, UUID.fromString(group_uuid));
+        q.setTimestamp(2, new Timestamp(date.getTime()));
         q.setString(3, head);
         q.setString(4, new_body_request);
-        q.setString(5, user_uuid);
+        q.setObject(5, UUID.fromString(user_uuid));
         ResultSet set = q.executeQuery();
         if (set.next()) return set.getString("post_uuid");
         else return null;
     }
 
     @Override
-    public ResultSet getRowByID(String post_uuid) throws SQLException {
+    protected ResultSet getRowByID(String post_uuid) throws SQLException {
         PreparedStatement q = connection.prepareStatement("SELECT * FROM " + tName + " " +
                 "WHERE post_uuid = ?");
         UUID uuid = UUID.fromString(post_uuid);
@@ -40,7 +40,7 @@ public class DBPosts extends DBTable<TPosts, TRPosts> {
     }
 
     @Override
-    public TRPosts getObjectFromRS(ResultSet resultSet) throws SQLException {
+    protected TRPosts getObjectFromRS(ResultSet resultSet) throws SQLException {
         TRPosts post = new TRPosts();
         post.setPost_uuid(resultSet.getString("post_uuid"));
         post.setGroup_uuid(resultSet.getString("group_uuid"));
@@ -54,7 +54,7 @@ public class DBPosts extends DBTable<TPosts, TRPosts> {
     }
 
     @Override
-    public PreparedStatement getFullInsertStatement() throws SQLException {
+    protected PreparedStatement getFullInsertStatement() throws SQLException {
         PreparedStatement q = connection.prepareStatement("INSERT INTO posts" +
                 " (post_uuid, group_uuid, date, head, body, " +
                 "new_body_request, commit, user_uuid)" +
@@ -63,22 +63,21 @@ public class DBPosts extends DBTable<TPosts, TRPosts> {
     }
 
     @Override
-    public void setParamsForFullInsertStatement(TRPosts post, PreparedStatement q) throws SQLException {
-        q.setString(1, post.getPost_uuid());
-        q.setString(2, post.getGroup_uuid());
-        q.setTimestamp(3, (Timestamp) post.getDate());
+    protected void setParamsForFullInsertStatement(TRPosts post, PreparedStatement q) throws SQLException {
+        q.setObject(1, UUID.fromString(post.getPost_uuid()));
+        q.setObject(2, UUID.fromString(post.getGroup_uuid()));
+        q.setTimestamp(3, new Timestamp(post.getDate().getTime()));
         q.setString(4, post.getHead());
         q.setString(5, post.getBody());
         q.setString(6, post.getNew_body_request());
-        q.setString(7, post.getCommit());
-        q.setString(8, post.getUser_uuid());
+        q.setBoolean(7, Boolean.valueOf(post.getCommit()));
+        q.setObject(8, UUID.fromString(post.getUser_uuid()));
         q.addBatch();
     }
 
     @Override
-    public TPosts getObjects(PreparedStatement q) throws SQLException {
-        TPosts tPosts = new TPosts();
-        tPosts.setListOfRows(new ArrayList<>());
+    public void loadObjsFromDB(TPosts tPosts) throws SQLException {
+        tPosts.setListOfRows(new ArrayDeque<>());
         ResultSet resultSet = getRows();
         while (resultSet.next()) {
             TRPosts post = getObjectFromRS(resultSet);
@@ -97,6 +96,5 @@ public class DBPosts extends DBTable<TPosts, TRPosts> {
             }
             tPosts.getListOfRows().add(post);
         }
-        return tPosts;
     }
 }

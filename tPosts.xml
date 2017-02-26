@@ -4,7 +4,7 @@
         <user_uuid>79f009e6-8fa7-4226-9849-ebe7d854c05c</user_uuid>
         <group_uuid>f4b03f22-1a7e-446b-971f-cf13cfef42d4</group_uuid>
         <date>2017-02-15T00:00:00+03:00</date>
-        <commit>t</commit>
+        <commit>f</commit>
         <head>Стих про Жучку</head>
         <body>фывыфвыфвфывфвывыфвыф фывыфвыфвыфывыфв&#xD;
             фывфывыфвыфв&#xD;
@@ -25,14 +25,14 @@
         <user_uuid>076e6bff-0d4c-4087-837c-d0acdb9c0669</user_uuid>
         <group_uuid>fb9c7e6e-21fa-4184-8e9a-de550c170c79</group_uuid>
         <date>2017-02-21T20:54:04.415+03:00</date>
-        <commit>t</commit>
+        <commit>f</commit>
         <head>Мемуары</head>
         <body>Воооот</body>
         <author userUuid="076e6bff-0d4c-4087-837c-d0acdb9c0669">
             <login>Шмегрин</login>
             <password>asd222</password>
             <email>shmegrin@mail.ru</email>
-            <visible_name>Виктор</visible_name>
+            <visible_name>Виктор 1111</visible_name>
             <role>1</role>
         </author>
     </Post>
@@ -40,7 +40,7 @@
         <user_uuid>79f009e6-8fa7-4226-9849-ebe7d854c05c</user_uuid>
         <group_uuid>f4b03f22-1a7e-446b-971f-cf13cfef42d4</group_uuid>
         <date>2017-02-21T20:54:46.101+03:00</date>
-        <commit>t</commit>
+        <commit>f</commit>
         <head>Стих про муху</head>
         <body>фывыфвыфвыфвыфв&#xD;
             ыфвыфвыфвыфв&#xD;

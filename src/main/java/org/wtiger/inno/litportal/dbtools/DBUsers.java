@@ -1,5 +1,6 @@
 package org.wtiger.inno.litportal.dbtools;
 
+import org.apache.log4j.Logger;
 import org.wtiger.inno.litportal.models.rows.TRUsers;
 import org.wtiger.inno.litportal.models.tables.TUsers;
 
@@ -7,10 +8,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class DBUsers extends DBTable<TUsers, TRUsers> {
+    private static Logger logger = Logger.getLogger(DBUsers.class);
 
     public DBUsers(Connection con) {
         super(con, "users");
@@ -30,7 +31,7 @@ public class DBUsers extends DBTable<TUsers, TRUsers> {
     }
 
     @Override
-    public ResultSet getRowByID(String user_uuid) throws SQLException {
+    protected ResultSet getRowByID(String user_uuid) throws SQLException {
         PreparedStatement q = connection.prepareStatement("SELECT * FROM " + tName + " " +
                 "WHERE user_uuid = ?");
         UUID uuid = UUID.fromString(user_uuid);
@@ -40,7 +41,7 @@ public class DBUsers extends DBTable<TUsers, TRUsers> {
     }
 
     @Override
-    public TRUsers getObjectFromRS(ResultSet resultSet) throws SQLException {
+    protected TRUsers getObjectFromRS(ResultSet resultSet) throws SQLException {
         TRUsers user = new TRUsers();
         user.setUser_uuid(resultSet.getString("user_uuid"));
         user.setLogin(resultSet.getString("login"));
@@ -52,32 +53,46 @@ public class DBUsers extends DBTable<TUsers, TRUsers> {
     }
 
     @Override
-    public PreparedStatement getFullInsertStatement() throws SQLException {
+    protected PreparedStatement getFullInsertStatement() throws SQLException {
         PreparedStatement q = connection.prepareStatement("INSERT INTO users" +
                 " (user_uuid, login, password, role, email, visible_name)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?) ON CONFLICT (user_uuid) DO NOTHING");
+                " VALUES (?, ?, ?, ?, ?, ?) ON CONFLICT (user_uuid) DO UPDATE SET " +
+                "login = EXCLUDED.login, " +
+                "password = EXCLUDED.password, " +
+                "role = EXCLUDED.role, " +
+                "email = EXCLUDED.email, " +
+                "visible_name = EXCLUDED.visible_name");
         return q;
     }
 
     @Override
-    public void setParamsForFullInsertStatement(TRUsers user, PreparedStatement q) throws SQLException {
-        q.setString(1, user.getUser_uuid());
+    protected void setParamsForFullInsertStatement(TRUsers user, PreparedStatement q) throws SQLException {
+        String useruuid = user.getUser_uuid();
+        q.setObject(1, (useruuid == null) ? UUID.randomUUID() : UUID.fromString(useruuid));
         q.setString(2, user.getLogin());
         q.setString(3, user.getPassword());
-        q.setLong(5, user.getRole());
-        q.setString(6, user.getEmail());
-        q.setString(7, user.getVisible_name());
+        q.setLong(4, user.getRole());
+        q.setString(5, user.getEmail());
+        q.setString(6, user.getVisible_name());
     }
 
-    @Override
-    public TUsers getObjects(PreparedStatement q) throws SQLException {
-        TUsers users = new TUsers();
-        users.setListOfRows(new ArrayList<TRUsers>());
-        ResultSet resultSet = getRows();
-        while (resultSet.next()) {
-            TRUsers user = getObjectFromRS(resultSet);
-            users.getListOfRows().add(user);
-        }
-        return users;
+    public ResultSet getRowByLogin(String login) throws SQLException {
+        PreparedStatement q = connection.prepareStatement("SELECT * FROM " + tName + " " +
+                "WHERE login = ?");
+        q.setString(1, login);
+        ResultSet set = q.executeQuery();
+        return set;
     }
+
+    public TRUsers getObjectByLogin(String login) {
+        TRUsers result = null;
+        try {
+            ResultSet set = getRowByLogin(login);
+            if (set.next()) result = getObjectFromRS(set);
+        } catch (SQLException e) {
+            logger.error("Не удалось получить пользователя по логину.", e);
+        }
+        return result;
+    }
+
 }

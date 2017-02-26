@@ -4,7 +4,6 @@ import org.wtiger.inno.litportal.models.rows.TRComments;
 import org.wtiger.inno.litportal.models.tables.TComments;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class DBComments extends DBTable<TComments, TRComments> {
@@ -18,17 +17,18 @@ public class DBComments extends DBTable<TComments, TRComments> {
         PreparedStatement q = connection.prepareStatement("INSERT INTO comments " +
                 "(post_uuid, parent_comment_uuid, body, user_uuid)  " +
                 "VALUES (?, ?, ?, ?) RETURNING comment_uuid");
-        q.setString(1, post_uuid);
-        q.setString(2, parent_comment_uuid);
+        q.setObject(1, UUID.fromString(post_uuid));
+        String s = parent_comment_uuid;
+        q.setObject(2, (s != null) ? UUID.fromString(s) : null);
         q.setString(3, body);
-        q.setString(4, user_uuid);
+        q.setObject(4, UUID.fromString(user_uuid));
         ResultSet set = q.executeQuery();
         if (set.next()) return set.getString("comment_uuid");
         else return null;
     }
 
     @Override
-    public ResultSet getRowByID(String comment_uuid) throws SQLException {
+    protected ResultSet getRowByID(String comment_uuid) throws SQLException {
         PreparedStatement q = connection.prepareStatement("SELECT * FROM comments " +
                 "WHERE comment_uuid = ?");
         UUID uuid = UUID.fromString(comment_uuid);
@@ -38,7 +38,7 @@ public class DBComments extends DBTable<TComments, TRComments> {
     }
 
     @Override
-    public TRComments getObjectFromRS(ResultSet resultSet) throws SQLException {
+    protected TRComments getObjectFromRS(ResultSet resultSet) throws SQLException {
         TRComments comment = new TRComments();
         comment.setComment_uuid(resultSet.getString("comment_uuid"));
         comment.setPost_uuid(resultSet.getString("post_uuid"));
@@ -50,7 +50,7 @@ public class DBComments extends DBTable<TComments, TRComments> {
     }
 
     @Override
-    public PreparedStatement getFullInsertStatement() throws SQLException {
+    protected PreparedStatement getFullInsertStatement() throws SQLException {
         PreparedStatement q = connection.prepareStatement("INSERT INTO comments" +
                 " (comment_uuid, post_uuid, parent_comment_uuid, body, date, user_uuid) " +
                 " VALUES (?, ?, ?, ?, ?, ?) ON CONFLICT (comment_uuid) DO NOTHING");
@@ -58,26 +58,14 @@ public class DBComments extends DBTable<TComments, TRComments> {
     }
 
     @Override
-    public void setParamsForFullInsertStatement(TRComments comment, PreparedStatement q) throws SQLException {
-        q.setString(1, comment.getComment_uuid());
-        q.setString(2, comment.getPost_uuid());
-        q.setString(3, comment.getParent_comment_uuid());
+    protected void setParamsForFullInsertStatement(TRComments comment, PreparedStatement q) throws SQLException {
+        q.setObject(1, UUID.fromString(comment.getComment_uuid()));
+        q.setObject(2, UUID.fromString(comment.getPost_uuid()));
+        String s = comment.getParent_comment_uuid();
+        q.setObject(3, (s != null) ? UUID.fromString(s) : null);
         q.setString(4, comment.getBody());
-        q.setTimestamp(5, (Timestamp) comment.getDate());
-        q.setString(6, comment.getUser_uuid());
+        q.setTimestamp(5, new Timestamp(comment.getDate().getTime()));
+        q.setObject(6, UUID.fromString(comment.getUser_uuid()));
         q.addBatch();
     }
-
-    @Override
-    public TComments getObjects(PreparedStatement q) throws SQLException {
-        TComments comments = new TComments();
-        comments.setListOfRows(new ArrayList<TRComments>());
-        ResultSet resultSet = getRows();
-        while (resultSet.next()) {
-            TRComments comment = getObjectFromRS(resultSet);
-            comments.getListOfRows().add(comment);
-        }
-        return comments;
-    }
-
 }

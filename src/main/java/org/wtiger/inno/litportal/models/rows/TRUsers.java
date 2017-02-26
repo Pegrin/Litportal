@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {"login", "password", "email"
         , "visible_name", "role"})
-public class TRUsers {
+public class TRUsers implements TableRow {
     private String login;
     private String password;
     private Long role;

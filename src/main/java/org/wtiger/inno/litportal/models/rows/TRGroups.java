@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Group")
 @XmlType(propOrder = {"parent_group_uuid", "head", "body"})
 
-public class TRGroups {
+public class TRGroups implements TableRow {
     private String group_uuid;
     private String parent_group_uuid;
     private String head;

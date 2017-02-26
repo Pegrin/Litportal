@@ -1,74 +1,84 @@
 package org.wtiger.inno.litportal;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.log4j.Logger;
+import org.wtiger.inno.litportal.dbtools.DBComments;
+import org.wtiger.inno.litportal.dbtools.DBGroups;
 import org.wtiger.inno.litportal.dbtools.DBPosts;
 import org.wtiger.inno.litportal.dbtools.DBUsers;
+import org.wtiger.inno.litportal.models.rows.TRComments;
+import org.wtiger.inno.litportal.models.rows.TRGroups;
+import org.wtiger.inno.litportal.models.rows.TRPosts;
+import org.wtiger.inno.litportal.models.rows.TRUsers;
+import org.wtiger.inno.litportal.models.tables.TComments;
+import org.wtiger.inno.litportal.models.tables.TGroups;
 import org.wtiger.inno.litportal.models.tables.TPosts;
 import org.wtiger.inno.litportal.models.tables.TUsers;
+import org.wtiger.inno.litportal.workers.UploaderFromBase;
+import org.wtiger.inno.litportal.workers.UploaderFromXML;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 
 public class Main {
 
-    public static Connection getConPostgres(String host, String port, String db, String user) throws SQLException {
-        String password = "hrenasword";
-        return DriverManager.getConnection("jdbc:postgresql://" + host + ":" + port + "/" + db + "",
-                user, password);
-    }
+    Logger logger = Logger.getLogger(this.getClass());
 
     public static void main(String[] args) {
+        String host = "localhost", port = "5432", db = "litportal";
         try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
+            ComboPooledDataSource cpds = new ComboPooledDataSource();
+            cpds.setDriverClass("org.postgresql.Driver");
+            cpds.setJdbcUrl("jdbc:postgresql://" + host + ":" + port + "/" + db + "");
+            cpds.setUser("postgres");
+            cpds.setPassword("password");
+            cpds.setMinPoolSize(4);
+            cpds.setAcquireIncrement(2);
+            cpds.setMaxPoolSize(8);
+            Thread threadU;
+            Thread threadG;
+            Thread threadP;
+            Thread threadC;
+
+            //Выгружаем все в XML
+            threadU = new Thread(new UploaderFromBase<TRUsers, DBUsers>(
+                    new TUsers(), new DBUsers(cpds.getConnection()), "tUsers.xml"));
+            threadU.start();
+            threadG = new Thread(new UploaderFromBase<TRGroups, DBGroups>(
+                    new TGroups(), new DBGroups(cpds.getConnection()), "tGroup.xml"));
+            threadG.start();
+            threadP = new Thread(new UploaderFromBase<TRPosts, DBPosts>(
+                    new TPosts(), new DBPosts(cpds.getConnection()), "tPosts.xml"));
+            threadP.start();
+            threadC = new Thread(new UploaderFromBase<TRComments, DBComments>(
+                    new TComments(), new DBComments(cpds.getConnection()), "tComments.xml"));
+            threadC.start();
+            threadU.join();
+            threadG.join();
+            threadP.join();
+            threadC.join();
+
+            //Чистим базу
+            (new DBComments(cpds.getConnection())).deleteAll();
+            (new DBPosts(cpds.getConnection())).deleteAll();
+            (new DBGroups(cpds.getConnection())).deleteAll();
+            (new DBUsers(cpds.getConnection())).deleteAll();
+
+            //А тут загрузим все это обратно.
+            threadU = new Thread(new UploaderFromXML<TRUsers>(new TUsers(), "tUsers.xml", new DBUsers(cpds.getConnection())), "Users");
+            threadU.start();
+            threadG = new Thread(new UploaderFromXML<TRGroups>(new TGroups(), "tGroup.xml", new DBGroups(cpds.getConnection())), "Groups");
+            threadG.start();
+            threadU.join();
+            threadG.join();
+            (new UploaderFromXML<TRPosts>(new TPosts(), "tPosts.xml", new DBPosts(cpds.getConnection()))).run();
+            (new UploaderFromXML<TRComments>(new TComments(), "tComments.xml", new DBComments(cpds.getConnection()))).run();
+
+        } catch (PropertyVetoException e) {
             e.printStackTrace();
-        }
-        try (Connection con = getConPostgres("localhost", "5432",
-                "litportal", "postgres")) {
-            DBUsers dbUsers = new DBUsers(con);
-            TUsers tUsers = dbUsers.getObjects(dbUsers.getFullInsertStatement());
-            DBPosts dbPosts = new DBPosts(con);
-            TPosts tPosts = dbPosts.getObjects(dbPosts.getFullInsertStatement());
-            convertObjectToXml(tUsers, "tUsers.xml");
-            convertObjectToXml(tPosts, "tPosts.xml");
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        TUsers newUsers = (TUsers) fromXmlToObject("tUsers.xml", TUsers.class);
-        TPosts newPosts = (TPosts) fromXmlToObject("tPosts.xml", TPosts.class);
-        System.out.println();
-    }
-
-    private static Object fromXmlToObject(String filePath, Class theClass) {
-        try {
-            // создаем объект JAXBContext - точку входа для JAXB
-            JAXBContext jaxbContext = JAXBContext.newInstance(theClass);
-            Unmarshaller un = jaxbContext.createUnmarshaller();
-
-            return un.unmarshal(new File(filePath));
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-        Integer i = 0;
-        System.out.println(i.intValue());
-        return null;
-    }
-
-    // сохраняем объект в XML файл
-    private static void convertObjectToXml(Object obj, String filePath) {
-        try {
-            JAXBContext context = JAXBContext.newInstance(obj.getClass());
-            Marshaller marshaller = context.createMarshaller();
-            // устанавливаем флаг для читабельного вывода XML в JAXB
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            // маршаллинг объекта в файл
-            marshaller.marshal(obj, new File(filePath));
-        } catch (JAXBException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

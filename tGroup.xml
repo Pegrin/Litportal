@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Groups>
+    <Group groupUuid="f4b03f22-1a7e-446b-971f-cf13cfef42d4">
+        <head>Стихи</head>
+        <body>Это когда с рифмой</body>
+    </Group>
+    <Group groupUuid="fb9c7e6e-21fa-4184-8e9a-de550c170c79">
+        <head>Проза</head>
+        <body>Это когда без рифмы</body>
+    </Group>
+</Groups>

@@ -2,23 +2,32 @@ package org.wtiger.inno.litportal.models.tables;
 
 import org.wtiger.inno.litportal.models.rows.TRGroups;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
+import javax.xml.bind.annotation.*;
+import java.util.ArrayDeque;
 
 @XmlRootElement(name = "Groups")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TGroups implements TTable<TRGroups> {
     @XmlElement(name = "Group")
-    private ArrayList<TRGroups> listOfRows = null;
+    private ArrayDeque<TRGroups> listOfRows = null;
+    @XmlTransient
+    private boolean ready = true;
 
-    public ArrayList<TRGroups> getListOfRows() {
+    @Override
+    public synchronized boolean isReady() {
+        return ready;
+    }
+
+    @Override
+    public synchronized void setReady(boolean ready) {
+        this.ready = ready;
+    }
+
+    public ArrayDeque<TRGroups> getListOfRows() {
         return listOfRows;
     }
 
-    public void setListOfRows(ArrayList<TRGroups> listOfRows) {
+    public void setListOfRows(ArrayDeque<TRGroups> listOfRows) {
         this.listOfRows = listOfRows;
     }
 }
