@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-02-21.23:43:14.938</IntrospectionTimestamp>
-      <IntrospectionStateNumber>688</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-02-26.21:51:52.384</IntrospectionTimestamp>
+      <IntrospectionStateNumber>764</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -319,8 +319,8 @@
       <Position>5</Position>
       <DataType>smallint|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>608</StateNumber>
-      <DefaultExpression>1</DefaultExpression>
+      <StateNumber>762</StateNumber>
+      <DefaultExpression>0</DefaultExpression>
     </column>
     <column id="59" parent="12" name="email">
       <Position>6</Position>
@@ -341,85 +341,95 @@
       <StateNumber>644</StateNumber>
       <DefaultExpression>uuid_generate_v4()</DefaultExpression>
     </column>
-    <index id="62" parent="12" name="users_login_uindex">
+    <index id="62" parent="12" name="users_login_pk">
+      <ObjectId>16693</ObjectId>
+      <ColNames>login</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="63" parent="12" name="users_login_uindex">
       <ObjectId>16541</ObjectId>
       <ColNames>login</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="63" parent="12" name="users_mail_uindex">
+    <index id="64" parent="12" name="users_mail_uindex">
       <ObjectId>16542</ObjectId>
       <ColNames>email</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="64" parent="12" name="users_user_uuid_pk">
+    <index id="65" parent="12" name="users_user_uuid_pk">
       <ObjectId>16606</ObjectId>
       <ColNames>user_uuid</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="65" parent="12" name="users_user_uuid_uindex">
+    <index id="66" parent="12" name="users_user_uuid_uindex">
       <ObjectId>16605</ObjectId>
       <ColNames>user_uuid</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="66" parent="12" name="users_user_uuid_pk">
+    <key id="67" parent="12" name="users_user_uuid_pk">
       <ObjectId>16607</ObjectId>
       <ColNames>user_uuid</ColNames>
       <UnderlyingIndexName>users_user_uuid_pk</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <argument id="67" parent="13">
+    <key id="68" parent="12" name="users_login_pk">
+      <ObjectId>16694</ObjectId>
+      <ColNames>login</ColNames>
+      <UnderlyingIndexName>users_login_pk</UnderlyingIndexName>
+    </key>
+    <argument id="69" parent="13">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="68" parent="14">
+    <argument id="70" parent="14">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="69" parent="15" name="namespace">
+    <argument id="71" parent="15" name="namespace">
       <Position>1</Position>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="70" parent="15" name="name">
+    <argument id="72" parent="15" name="name">
       <Position>2</Position>
       <DataType>text|0</DataType>
     </argument>
-    <argument id="71" parent="15">
+    <argument id="73" parent="15">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="72" parent="16">
+    <argument id="74" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="73" parent="17" name="namespace">
+    <argument id="75" parent="17" name="namespace">
       <Position>1</Position>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="74" parent="17" name="name">
+    <argument id="76" parent="17" name="name">
       <Position>2</Position>
       <DataType>text|0</DataType>
     </argument>
-    <argument id="75" parent="17">
+    <argument id="77" parent="17">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="76" parent="18">
+    <argument id="78" parent="18">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="77" parent="19">
+    <argument id="79" parent="19">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="78" parent="20">
+    <argument id="80" parent="20">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="79" parent="21">
+    <argument id="81" parent="21">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>
-    <argument id="80" parent="22">
+    <argument id="82" parent="22">
       <ArgumentDirection>R</ArgumentDirection>
       <DataType>uuid|0</DataType>
     </argument>

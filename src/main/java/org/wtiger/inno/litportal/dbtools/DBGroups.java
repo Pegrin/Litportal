@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayDeque;
 import java.util.UUID;
 
 public class DBGroups extends DBTable<TGroups, TRGroups> {
@@ -29,12 +30,42 @@ public class DBGroups extends DBTable<TGroups, TRGroups> {
 
     @Override
     protected ResultSet getRowByID(String group_uuid) throws SQLException {
-        PreparedStatement q = connection.prepareStatement("SELECT * FROM groups " +
+        PreparedStatement q;
+        if (group_uuid != null) {
+            q = connection.prepareStatement("SELECT * FROM groups " +
                 "WHERE group_uuid = ?");
-        UUID uuid = UUID.fromString(group_uuid);
-        q.setObject(1, uuid);
+
+            UUID uuid = UUID.fromString(group_uuid);
+            q.setObject(1, uuid);
+        } else
+            q = connection.prepareStatement("SELECT * FROM groups " +
+                    "WHERE group_uuid IS NULL");
         ResultSet set = q.executeQuery();
         return set;
+    }
+
+    protected ResultSet getRowsByParentID(String group_uuid) throws SQLException {
+        PreparedStatement q;
+        if (group_uuid != null) {
+            q = connection.prepareStatement("SELECT * FROM groups " +
+                    "WHERE parent_group_uuid = ?");
+            UUID uuid = UUID.fromString(group_uuid);
+            q.setObject(1, uuid);
+        } else
+            q = connection.prepareStatement("SELECT * FROM groups " +
+                    "WHERE parent_group_uuid IS NULL");
+        ResultSet set = q.executeQuery();
+        return set;
+    }
+
+    public TGroups getGroupsByParentID(String group_uuid) throws SQLException {
+        TGroups groups = new TGroups();
+        groups.setListOfRows(new ArrayDeque<>());
+        ResultSet set = getRowsByParentID(group_uuid);
+        while (set.next()) {
+            groups.getListOfRows().add(getObjectFromRS(set));
+        }
+        return groups;
     }
 
     @Override

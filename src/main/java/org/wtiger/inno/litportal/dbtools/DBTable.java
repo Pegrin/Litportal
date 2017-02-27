@@ -17,14 +17,6 @@ abstract public class DBTable<T extends TTable<TR>, TR extends TableRow> {
         this.tName = tName;
     }
 
-    public void closeCon() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace(); //Ошибка при закрытии соединения
-        }
-    }
-
     protected ResultSet getRows() throws SQLException {
         Statement statement = connection.createStatement();
         return statement.executeQuery("SELECT * FROM " + tName);
@@ -80,9 +72,11 @@ abstract public class DBTable<T extends TTable<TR>, TR extends TableRow> {
 
     abstract protected PreparedStatement getFullInsertStatement() throws SQLException;
 
-    @Override
-    protected void finalize() throws Throwable {
-        connection.close();
-        super.finalize();
+    public void close() {
+        if (connection != null) try {
+            connection.close();
+        } catch (SQLException e) {
+            logger.warn("Не удалось завершить работу connection:", e);
+        }
     }
 }

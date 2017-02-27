@@ -39,6 +39,45 @@ public class DBPosts extends DBTable<TPosts, TRPosts> {
         return set;
     }
 
+    protected ResultSet getRowsByGroupID(String group) throws SQLException {
+        PreparedStatement q;
+        if (group != null) {
+            q = connection.prepareStatement("SELECT * FROM posts " +
+                    "WHERE group_uuid = ?");
+            UUID uuid = UUID.fromString(group);
+            q.setObject(1, uuid);
+        } else
+            q = connection.prepareStatement("SELECT * FROM posts " +
+                    "WHERE group_uuid IS NULL");
+        ResultSet set = q.executeQuery();
+        return set;
+    }
+
+    public TPosts getPostsByGroupID(String group_uuid) throws SQLException {
+        TPosts posts = new TPosts();
+        posts.setListOfRows(new ArrayDeque<>());
+        ResultSet set = getRowsByGroupID(group_uuid);
+        while (set.next()) {
+            TRPosts post = getObjectFromRS(set);
+            posts.getListOfRows().add(post);
+            {
+                DBUsers dbUsers = new DBUsers(connection);
+                ResultSet set2 = dbUsers.getRowByID(post.getUser_uuid());
+                set2.next();
+                TRUsers user = new TRUsers();
+                user.setUser_uuid(post.getUser_uuid());
+                user.setLogin(set2.getString("login"));
+                user.setPassword(set2.getString("password"));
+                user.setRole(set2.getLong("role"));
+                user.setEmail(set2.getString("email"));
+                user.setVisible_name(set2.getString("visible_name"));
+                post.setAuthor(user);
+            }
+        }
+        return posts;
+    }
+
+
     @Override
     protected TRPosts getObjectFromRS(ResultSet resultSet) throws SQLException {
         TRPosts post = new TRPosts();

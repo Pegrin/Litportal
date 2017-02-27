@@ -9,7 +9,7 @@ body div {
 }
 
 .topline {
-    background: #d1432c;
+    background: #4d95d1;
     padding: 10px;
     height: 20%;
 }
@@ -17,15 +17,13 @@ body div {
 .main {
     padding: 10px;
     float: left;
+    height: 70%
 
 }
 
 .bottomline {
-    background: #70d913;
+    background: #4d95d1;
     padding: 10px;
     clear: both;
-}
-
-.poststable {
-    border-width: 2px;
+    height: 10%;
 }

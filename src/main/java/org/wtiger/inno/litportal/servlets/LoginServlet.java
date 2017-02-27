@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
         boolean authed = Authenticator.authenticate(login, password, true, req, resp);
         if (authed) {
-            resp.sendRedirect("./");
+            resp.sendRedirect("./posts");
         }
     }
 }

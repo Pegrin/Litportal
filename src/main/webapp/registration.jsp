@@ -37,7 +37,7 @@
                     </tr>
                 </c:if>
             </table>
-            <input type="submit" value="Изменить">
+            <input type="submit" value="Зарегистрироваться">
         </form>
     </div>
 </rapid:override>

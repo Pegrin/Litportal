@@ -27,6 +27,8 @@ public class LoaderToBase<TR extends TableRow, DBT extends DBTable> implements R
                 dbTable.loadObjsToDB(table);
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                dbTable.close();
             }
             table.setReady(true);
         } else {

@@ -31,7 +31,7 @@ public class UploaderFromBase<TR extends TableRow, DBT extends DBTable> implemen
         table.setReady(false);
         try {
             dbTable.loadObjsFromDB(table);
-            dbTable.closeCon();
+            dbTable.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

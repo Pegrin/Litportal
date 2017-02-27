@@ -16,7 +16,13 @@
 <body>
 <div class="container">
     <rapid:block name="topline">
-        <div class="topline">Логотип сайта</div>
+        <div class="header topline">
+            <ul class="nav nav-pills pull-right">
+                <li class="active">Личный кабинет</li>
+                <li>Еще кнопка</li>
+            </ul>
+            <h3 class="text-muted>">Литературный портал</h3>
+        </div>
     </rapid:block>
     <rapid:block name="main">
         <div class="main">Основная страница</div>
