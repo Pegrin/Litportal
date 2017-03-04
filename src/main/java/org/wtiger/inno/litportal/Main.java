@@ -2,18 +2,18 @@ package org.wtiger.inno.litportal;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.log4j.Logger;
-import org.wtiger.inno.litportal.dbtools.DBComments;
-import org.wtiger.inno.litportal.dbtools.DBGroups;
-import org.wtiger.inno.litportal.dbtools.DBPosts;
-import org.wtiger.inno.litportal.dbtools.DBUsers;
-import org.wtiger.inno.litportal.models.rows.TRComments;
-import org.wtiger.inno.litportal.models.rows.TRGroups;
-import org.wtiger.inno.litportal.models.rows.TRPosts;
-import org.wtiger.inno.litportal.models.rows.TRUsers;
-import org.wtiger.inno.litportal.models.tables.TComments;
-import org.wtiger.inno.litportal.models.tables.TGroups;
-import org.wtiger.inno.litportal.models.tables.TPosts;
-import org.wtiger.inno.litportal.models.tables.TUsers;
+import org.wtiger.inno.litportal.dbtools.Jaxb.DBJaxbComments;
+import org.wtiger.inno.litportal.dbtools.Jaxb.DBJaxbGroups;
+import org.wtiger.inno.litportal.dbtools.Jaxb.DBJaxbPosts;
+import org.wtiger.inno.litportal.dbtools.Jaxb.DBJaxbUsers;
+import org.wtiger.inno.litportal.models.jaxb.rows.TableRowJaxbComments;
+import org.wtiger.inno.litportal.models.jaxb.rows.TableRowJaxbGroups;
+import org.wtiger.inno.litportal.models.jaxb.rows.TableRowJaxbPosts;
+import org.wtiger.inno.litportal.models.jaxb.rows.TableRowJaxbUsers;
+import org.wtiger.inno.litportal.models.jaxb.tables.TableJaxbComments;
+import org.wtiger.inno.litportal.models.jaxb.tables.TableJaxbGroups;
+import org.wtiger.inno.litportal.models.jaxb.tables.TableJaxbPosts;
+import org.wtiger.inno.litportal.models.jaxb.tables.TableJaxbUsers;
 import org.wtiger.inno.litportal.workers.UploaderFromBase;
 import org.wtiger.inno.litportal.workers.UploaderFromXML;
 
@@ -41,17 +41,17 @@ public class Main {
             Thread threadC;
 
             //Выгружаем все в XML
-            threadU = new Thread(new UploaderFromBase<TRUsers, DBUsers>(
-                    new TUsers(), new DBUsers(cpds.getConnection()), "tUsers.xml"));
+            threadU = new Thread(new UploaderFromBase<TableRowJaxbUsers, DBJaxbUsers>(
+                    new TableJaxbUsers(), new DBJaxbUsers(cpds.getConnection()), "tUsers.xml"));
             threadU.start();
-            threadG = new Thread(new UploaderFromBase<TRGroups, DBGroups>(
-                    new TGroups(), new DBGroups(cpds.getConnection()), "tGroup.xml"));
+            threadG = new Thread(new UploaderFromBase<TableRowJaxbGroups, DBJaxbGroups>(
+                    new TableJaxbGroups(), new DBJaxbGroups(cpds.getConnection()), "tGroup.xml"));
             threadG.start();
-            threadP = new Thread(new UploaderFromBase<TRPosts, DBPosts>(
-                    new TPosts(), new DBPosts(cpds.getConnection()), "tPosts.xml"));
+            threadP = new Thread(new UploaderFromBase<TableRowJaxbPosts, DBJaxbPosts>(
+                    new TableJaxbPosts(), new DBJaxbPosts(cpds.getConnection()), "tPosts.xml"));
             threadP.start();
-            threadC = new Thread(new UploaderFromBase<TRComments, DBComments>(
-                    new TComments(), new DBComments(cpds.getConnection()), "tComments.xml"));
+            threadC = new Thread(new UploaderFromBase<TableRowJaxbComments, DBJaxbComments>(
+                    new TableJaxbComments(), new DBJaxbComments(cpds.getConnection()), "tComments.xml"));
             threadC.start();
             threadU.join();
             threadG.join();
@@ -59,20 +59,20 @@ public class Main {
             threadC.join();
 
             //Чистим базу
-            (new DBComments(cpds.getConnection())).deleteAll();
-            (new DBPosts(cpds.getConnection())).deleteAll();
-            (new DBGroups(cpds.getConnection())).deleteAll();
-            (new DBUsers(cpds.getConnection())).deleteAll();
+            (new DBJaxbComments(cpds.getConnection())).deleteAll();
+            (new DBJaxbPosts(cpds.getConnection())).deleteAll();
+            (new DBJaxbGroups(cpds.getConnection())).deleteAll();
+            (new DBJaxbUsers(cpds.getConnection())).deleteAll();
 
             //А тут загрузим все это обратно.
-            threadU = new Thread(new UploaderFromXML<TRUsers>(new TUsers(), "tUsers.xml", new DBUsers(cpds.getConnection())), "Users");
+            threadU = new Thread(new UploaderFromXML<TableRowJaxbUsers>(new TableJaxbUsers(), "tUsers.xml", new DBJaxbUsers(cpds.getConnection())), "Users");
             threadU.start();
-            threadG = new Thread(new UploaderFromXML<TRGroups>(new TGroups(), "tGroup.xml", new DBGroups(cpds.getConnection())), "Groups");
+            threadG = new Thread(new UploaderFromXML<TableRowJaxbGroups>(new TableJaxbGroups(), "tGroup.xml", new DBJaxbGroups(cpds.getConnection())), "Groups");
             threadG.start();
             threadU.join();
             threadG.join();
-            (new UploaderFromXML<TRPosts>(new TPosts(), "tPosts.xml", new DBPosts(cpds.getConnection()))).run();
-            (new UploaderFromXML<TRComments>(new TComments(), "tComments.xml", new DBComments(cpds.getConnection()))).run();
+            (new UploaderFromXML<TableRowJaxbPosts>(new TableJaxbPosts(), "tPosts.xml", new DBJaxbPosts(cpds.getConnection()))).run();
+            (new UploaderFromXML<TableRowJaxbComments>(new TableJaxbComments(), "tComments.xml", new DBJaxbComments(cpds.getConnection()))).run();
 
         } catch (PropertyVetoException e) {
             e.printStackTrace();

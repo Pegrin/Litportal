@@ -1,26 +1,29 @@
 package org.wtiger.inno.litportal.workers;
 
-import org.wtiger.inno.litportal.dbtools.DBTable;
+import org.apache.log4j.Logger;
+import org.wtiger.inno.litportal.dbtools.Jaxb.DBJaxbTable;
 import org.wtiger.inno.litportal.models.rows.TableRow;
-import org.wtiger.inno.litportal.models.tables.TTable;
+import org.wtiger.inno.litportal.models.tables.Table;
 
 import java.sql.SQLException;
 
 /**
  * Created by olymp on 22.02.2017.
  */
-public class UploaderFromBase<TR extends TableRow, DBT extends DBTable> implements Runnable {
-    private final TTable<TR> table;
+public class UploaderFromBase<TR extends TableRow, DBT extends DBJaxbTable> implements Runnable {
+    private static Logger logger = Logger.getLogger(UploaderFromBase.class);
+
+    private final Table<TR> table;
     private final DBT dbTable;
     private String fileName;
 
-    public UploaderFromBase(TTable<TR> table, DBT dbTable) {
+    public UploaderFromBase(Table<TR> table, DBT dbTable) {
         this.table = table;
         this.dbTable = dbTable;
         this.fileName = null;
     }
 
-    public UploaderFromBase(TTable<TR> table, DBT dbTable, String fileName) {
+    public UploaderFromBase(Table<TR> table, DBT dbTable, String fileName) {
         this.table = table;
         this.dbTable = dbTable;
         this.fileName = fileName;
@@ -33,7 +36,7 @@ public class UploaderFromBase<TR extends TableRow, DBT extends DBTable> implemen
             dbTable.loadObjsFromDB(table);
             dbTable.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Не удалось получить таблицу из базы.", e);
         } finally {
             table.setReady(true);
         }

@@ -12,12 +12,14 @@
 </rapid:override>
 <rapid:override name="main">
     <div class="main">
-        <form action="./login" method="post">
-            <label for="login">Логин: </label>
-            <input type="text" name="login" id="login" value="" placeholder="Input"><br>
-            <label for="password">Пароль: </label>
-            <input type="password" name="password" id="password" value="" placeholder="Input">
-            <input type="submit" value="Войти">
+        <form class="form-signin center-pill" action="./login" method="post">
+            <h2 class="form-signin-heading">Пожалуйста, авторизуйтесь</h2>
+            <label for="login" class="sr-only">Email address</label>
+            <input id="login" name="login" class="form-control" placeholder="Логин" required="" autofocus=""
+                   type="login">
+            <label for="password" class="sr-only">Password</label>
+            <input id="password" name="password" class="form-control" placeholder="Пароль" required="" type="password">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
         </form>
         <a href="./registration">Зарегистрироваться</a>
     </div>

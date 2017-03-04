@@ -12,32 +12,28 @@
 </rapid:override>
 <rapid:override name="main">
     <div class="main">
-        <form action="./registration" method="post">
+        <div><h2>Регистрация нового пользователя:</h2></div>
+        <form action="./registration" method="post" class="form-signin center-pill registration-table">
             <input type="text" name="uuid" style="display:none;" value="${uuid}">
             <table>
                 <tr>
-                    <td>Логин</td>
-                    <td><input type="text" name="login" value="${login}"></td>
+                    <td style="padding-right: 5px">Логин</td>
+                    <td><input class="form-control" type="text" name="login" value="${login}" required></td>
                 </tr>
                 <tr>
                     <td>Пароль</td>
-                    <td><input type="text" name="password" value="${password}"></td>
+                    <td><input class="form-control" type="password" name="password" value="${password}" required></td>
                 </tr>
                 <tr>
                     <td>Электронная почта</td>
-                    <td><input type="text" name="email" value="${email}"></td>
+                    <td><input class="form-control" type="email" name="email" value="${email}" required></td>
                 </tr>
                 <tr>
                     <td>Отображаемое имя</td>
-                    <td><input type="text" name="visible_name" value="${visible_name}"></td>
+                    <td><input class="form-control" type="text" name="visible_name" value="${visible_name}"></td>
                 </tr>
-                <c:if test="${add!=null}">
-                    <tr style="visibility: hidden">
-                        <td><input name="add" value="add"></td>
-                    </tr>
-                </c:if>
             </table>
-            <input type="submit" value="Зарегистрироваться">
+            <input class="btn btn-lg btn-primary btn-block" type="submit" value="Зарегистрироваться">
         </form>
     </div>
 </rapid:override>

@@ -27,3 +27,7 @@ body div {
     clear: both;
     height: 10%;
 }
+
+.registration-table {
+    padding: 10px 10px 10px 10px;
+}

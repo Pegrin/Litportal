@@ -5,9 +5,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-/**
- * Created by olymp on 24.02.2017.
- */
 public class Mailer {
     private static String username = "";
     private static String password = "";

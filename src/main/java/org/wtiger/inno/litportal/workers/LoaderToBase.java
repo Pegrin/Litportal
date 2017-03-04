@@ -1,19 +1,18 @@
 package org.wtiger.inno.litportal.workers;
 
-import org.wtiger.inno.litportal.dbtools.DBTable;
+import org.apache.log4j.Logger;
+import org.wtiger.inno.litportal.dbtools.Jaxb.DBJaxbTable;
 import org.wtiger.inno.litportal.models.rows.TableRow;
-import org.wtiger.inno.litportal.models.tables.TTable;
+import org.wtiger.inno.litportal.models.tables.Table;
 
 import java.sql.SQLException;
 
-/**
- * Created by olymp on 21.02.2017.
- */
-public class LoaderToBase<TR extends TableRow, DBT extends DBTable> implements Runnable {
-    private final TTable<TR> table;
+public class LoaderToBase<TR extends TableRow, DBT extends DBJaxbTable> implements Runnable {
+    private static Logger logger = Logger.getLogger(LoaderToBase.class);
+    private final Table<TR> table;
     private final DBT dbTable;
 
-    public LoaderToBase(TTable<TR> table, DBT dbTable) {
+    public LoaderToBase(Table<TR> table, DBT dbTable) {
         this.table = table;
         this.dbTable = dbTable;
     }
@@ -26,13 +25,13 @@ public class LoaderToBase<TR extends TableRow, DBT extends DBTable> implements R
             try {
                 dbTable.loadObjsToDB(table);
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.error("Ошибка в ходе загрузки таблицы в базу.", e);
             } finally {
                 dbTable.close();
             }
             table.setReady(true);
         } else {
-            //Ругаемся
+            logger.error("Ошибка в ходе загрузки данных в базу. Таблица не была разблокирована.");
         }
     }
 }

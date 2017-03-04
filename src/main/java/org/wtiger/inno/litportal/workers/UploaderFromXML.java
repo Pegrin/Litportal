@@ -1,41 +1,40 @@
 package org.wtiger.inno.litportal.workers;
 
-import org.wtiger.inno.litportal.dbtools.DBTable;
+import org.apache.log4j.Logger;
+import org.wtiger.inno.litportal.dbtools.Jaxb.DBJaxbTable;
 import org.wtiger.inno.litportal.models.rows.TableRow;
-import org.wtiger.inno.litportal.models.tables.TTable;
+import org.wtiger.inno.litportal.models.tables.Table;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 
-/**
- * Created by olymp on 22.02.2017.
- */
+
 public class UploaderFromXML<TR extends TableRow> implements Runnable {
-    private final TTable<TR> table;
-    DBTable dbTable;
+    private static Logger logger = Logger.getLogger(UploaderFromXML.class);
+    private final Table<TR> table;
+    DBJaxbTable dbJaxbTable;
     private String filePath;
 
-    public UploaderFromXML(TTable<TR> table, String filePath) {
+    public UploaderFromXML(Table<TR> table, String filePath) {
         this.table = table;
         this.filePath = filePath;
-        dbTable = null;
+        dbJaxbTable = null;
     }
 
-    public UploaderFromXML(TTable<TR> table, String filePath, DBTable dbTable) {
+    public UploaderFromXML(Table<TR> table, String filePath, DBJaxbTable dbJaxbTable) {
         this.table = table;
         this.filePath = filePath;
-        this.dbTable = dbTable;
+        this.dbJaxbTable = dbJaxbTable;
     }
 
-    private static TTable fromXmlToObject(String filePath, Class theClass) {
+    private static Table fromXmlToObject(String filePath, Class theClass) {
         try {
-            // создаем объект JAXBContext - точку входа для JAXB
             JAXBContext jaxbContext = JAXBContext.newInstance(theClass);
             Unmarshaller un = jaxbContext.createUnmarshaller();
 
-            return (TTable) un.unmarshal(new File(filePath));
+            return (Table) un.unmarshal(new File(filePath));
         } catch (JAXBException e) {
             e.printStackTrace();
         }
@@ -48,14 +47,14 @@ public class UploaderFromXML<TR extends TableRow> implements Runnable {
     public void run() {
         if (table.isReady()) {
             table.setReady(false);
-            TTable<TR> tmpTable = fromXmlToObject(filePath, table.getClass());
+            Table<TR> tmpTable = fromXmlToObject(filePath, table.getClass());
             table.setListOfRows(tmpTable.getListOfRows());
             table.setReady(true);
-            if (dbTable != null) {
-                (new LoaderToBase<TR, DBTable<TTable<TR>, TR>>(table, dbTable)).run();
+            if (dbJaxbTable != null) {
+                (new LoaderToBase<TR, DBJaxbTable<Table<TR>, TR>>(table, dbJaxbTable)).run();
             }
         } else {
-            //Истошно ругаемся
+            logger.error("Ошибка в ходе загрузки данных в базу. Таблица не была разблокирована.");
         }
 
     }

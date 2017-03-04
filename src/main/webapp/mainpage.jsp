@@ -18,10 +18,11 @@
     <rapid:block name="topline">
         <div class="header topline">
             <ul class="nav nav-pills pull-right">
-                <li class="active">Личный кабинет</li>
-                <li>Еще кнопка</li>
+                <li class="active"><a class="nav-link active" href="./login">Личный кабинет<span class="sr-only">(current)</span></a>
+                </li>
+                <li><a class="nav-link" href="#">Другая кнопка</a></li>
             </ul>
-            <h3 class="text-muted>">Литературный портал</h3>
+            <h4 class="text-muted>"><a href="./posts">Литературный портал</a></h4>
         </div>
     </rapid:block>
     <rapid:block name="main">

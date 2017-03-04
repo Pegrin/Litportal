@@ -1,6 +1,6 @@
 <%@ taglib prefix="rapid" uri="http://www.rapid-framework.org.cn/rapid" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="group" type="org.wtiger.inno.litportal.models.rows.TRGroups"--%>
+<%--@elvariable id="group" type="org.wtiger.inno.litportal.models.jaxb.rows.TableRowJaxbGroups"--%>
 <%--@elvariable id="groups" type="java.util.List"--%>
 <%--@elvariable id="posts" type="java.util.List"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
