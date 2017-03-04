@@ -2,7 +2,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.wtiger.inno.litportal.dbtools.hibernate.HibernatePostsEntity;
+import org.wtiger.inno.litportal.models.rows.PostsEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -34,7 +34,7 @@ public class Main {
 //        try {
         System.out.println("querying all the managed entities...");
         EntityManager em = Persistence.createEntityManagerFactory("LITPORTAL").createEntityManager();
-        HibernatePostsEntity post = em.find(HibernatePostsEntity.class,
+        PostsEntity post = em.find(PostsEntity.class,
                 UUID.fromString("5d95b4a2-6f22-4c9f-aa7f-f2c2b4a0b27a"));
         System.out.println(post.getHead());
 //            final Metamodel metamodel = session.getSessionFactory().getMetamodel();
@@ -43,8 +43,8 @@ public class Main {
 //                final Query query = session.createQuery("from " + entityName);
 //                System.out.println("executing: " + query.getQueryString());
 //                for (Object o : query.list()) {
-//                    if (o instanceof HibernateUsersEntity){
-//                        System.out.println("  " + ((HibernateUsersEntity)o).getLogin());
+//                    if (o instanceof UsersEntity){
+//                        System.out.println("  " + ((UsersEntity)o).getLogin());
 //                    }else {
 //                        System.out.println("  " + o);
 //                    }

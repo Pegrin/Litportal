@@ -7,10 +7,10 @@
 
     <persistence-unit name="LITPORTAL" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>org.wtiger.inno.litportal.dbtools.hibernate.HibernateCommentsEntity</class>
-        <class>org.wtiger.inno.litportal.dbtools.hibernate.HibernateGroupsEntity</class>
-        <class>org.wtiger.inno.litportal.dbtools.hibernate.HibernatePostsEntity</class>
-        <class>org.wtiger.inno.litportal.dbtools.hibernate.HibernateUsersEntity</class>
+        <class>org.wtiger.inno.litportal.models.rows.CommentsEntity</class>
+        <class>org.wtiger.inno.litportal.models.rows.GroupsEntity</class>
+        <class>org.wtiger.inno.litportal.models.rows.PostsEntity</class>
+        <class>org.wtiger.inno.litportal.models.rows.UsersEntity</class>
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/litportal"/>

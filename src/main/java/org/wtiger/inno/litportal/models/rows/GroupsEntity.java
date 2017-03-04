@@ -1,4 +1,4 @@
-package org.wtiger.inno.litportal.dbtools.hibernate;
+package org.wtiger.inno.litportal.models.rows;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -9,14 +9,14 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "groups", schema = "public", catalog = "litportal")
-public class HibernateGroupsEntity {
+public class GroupsEntity implements TableRow {
     private UUID groupUuid;
     private UUID parentGroupUuid;
     private String head;
     private String body;
-    private HibernateGroupsEntity groupsByParentGroupUuid;
-    private Collection<HibernateGroupsEntity> groupssByGroupUuid;
-    private Collection<HibernatePostsEntity> postssByGroupUuid;
+    private GroupsEntity groupsByParentGroupUuid;
+    private Collection<GroupsEntity> groupssByGroupUuid;
+    private Collection<PostsEntity> postssByGroupUuid;
 
     @Id
     @Column(name = "group_uuid")
@@ -63,7 +63,7 @@ public class HibernateGroupsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        HibernateGroupsEntity that = (HibernateGroupsEntity) o;
+        GroupsEntity that = (GroupsEntity) o;
 
         if (groupUuid != null ? !groupUuid.equals(that.groupUuid) : that.groupUuid != null) return false;
         if (parentGroupUuid != null ? !parentGroupUuid.equals(that.parentGroupUuid) : that.parentGroupUuid != null)
@@ -85,29 +85,29 @@ public class HibernateGroupsEntity {
 
     @ManyToOne
     @JoinColumn(name = "parent_group_uuid", referencedColumnName = "group_uuid")
-    public HibernateGroupsEntity getGroupsByParentGroupUuid() {
+    public GroupsEntity getGroupsByParentGroupUuid() {
         return groupsByParentGroupUuid;
     }
 
-    public void setGroupsByParentGroupUuid(HibernateGroupsEntity groupsByParentGroupUuid) {
+    public void setGroupsByParentGroupUuid(GroupsEntity groupsByParentGroupUuid) {
         this.groupsByParentGroupUuid = groupsByParentGroupUuid;
     }
 
     @OneToMany(mappedBy = "groupsByParentGroupUuid")
-    public Collection<HibernateGroupsEntity> getGroupssByGroupUuid() {
+    public Collection<GroupsEntity> getGroupssByGroupUuid() {
         return groupssByGroupUuid;
     }
 
-    public void setGroupssByGroupUuid(Collection<HibernateGroupsEntity> groupssByGroupUuid) {
+    public void setGroupssByGroupUuid(Collection<GroupsEntity> groupssByGroupUuid) {
         this.groupssByGroupUuid = groupssByGroupUuid;
     }
 
     @OneToMany(mappedBy = "groupsByGroupUuid")
-    public Collection<HibernatePostsEntity> getPostssByGroupUuid() {
+    public Collection<PostsEntity> getPostssByGroupUuid() {
         return postssByGroupUuid;
     }
 
-    public void setPostssByGroupUuid(Collection<HibernatePostsEntity> postssByGroupUuid) {
+    public void setPostssByGroupUuid(Collection<PostsEntity> postssByGroupUuid) {
         this.postssByGroupUuid = postssByGroupUuid;
     }
 }

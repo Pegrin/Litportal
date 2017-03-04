@@ -1,26 +1,27 @@
 package org.wtiger.inno.litportal.dbtools;
 
 import org.wtiger.inno.litportal.dbtools.exceptions.DBException;
-import org.wtiger.inno.litportal.models.rows.TableRowGroups;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by olymp on 03.03.2017.
  */
-public interface DAOGroups {
-    String createRow(String parent_group_uuid, String head, String body) throws SQLException;
+public interface DAOGroups<TR, ID> {
+    List<TR> findByParentID(UUID id) throws DBException;
 
-    ArrayList<TableRowGroups> getGroupsByParentID(String group_uuid) throws SQLException;
+    void deleteAll() throws DBException;
 
-    int deleteAll() throws DBException;
+    TR getNewEntity(UUID parent_group_uuid, String head, String body);
 
-    void loadObjsToDB(ArrayList<TableRowGroups> objList) throws DBException;
+    void persist(TR tr) throws DBException;
 
-    void loadObjToDB(TableRowGroups tr) throws DBException;
+    List<TR> findAll() throws DBException;
 
-    ArrayList<TableRowGroups> loadObjsFromDB() throws DBException;
+    TR findByID(ID id) throws DBException;
 
-    TableRowGroups getObjectByID(String id) throws DBException;
+    void update(TR tr) throws DBException;
+
+    void delete(TR tr) throws DBException;
 }

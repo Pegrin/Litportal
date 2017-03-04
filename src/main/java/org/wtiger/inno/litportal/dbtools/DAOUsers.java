@@ -1,25 +1,26 @@
 package org.wtiger.inno.litportal.dbtools;
 
 import org.wtiger.inno.litportal.dbtools.exceptions.DBException;
-import org.wtiger.inno.litportal.models.rows.TableRowUsers;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by olymp on 03.03.2017.
  */
-public interface DAOUsers {
-    String createRow(String login, String password, String email, String visible_name) throws DBException;
+public interface DAOUsers<TR, ID> {
+    TR getNewEntity(String login, String password, short role, String email, String visibleName);
 
-    TableRowUsers getObjectByLogin(String login) throws DBException;
+    TR getByLogin(String login) throws DBException;
 
-    int deleteAll() throws DBException;
+    void deleteAll() throws DBException;
 
-    void loadObjsToDB(ArrayList<TableRowUsers> objList) throws DBException;
+    void persist(TR tr) throws DBException;
 
-    void loadObjToDB(TableRowUsers tr) throws DBException;
+    List<TR> findAll() throws DBException;
 
-    ArrayList<TableRowUsers> loadObjsFromDB() throws DBException;
+    TR findByID(ID id) throws DBException;
 
-    TableRowUsers getObjectByID(String id) throws DBException;
+    void update(TR tr) throws DBException;
+
+    void delete(TR tr) throws DBException;
 }

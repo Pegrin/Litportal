@@ -1,4 +1,5 @@
-package org.wtiger.inno.litportal.dbtools.hibernate;
+package org.wtiger.inno.litportal.models.rows;
+
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -10,7 +11,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "posts", schema = "public", catalog = "litportal")
-public class HibernatePostsEntity {
+public class PostsEntity implements TableRow {
     private UUID postUuid;
     private UUID groupUuid;
     private Timestamp date;
@@ -19,9 +20,9 @@ public class HibernatePostsEntity {
     private String newBodyRequest;
     private Boolean commit;
     private UUID userUuid;
-    private Collection<HibernateCommentsEntity> commentssByPostUuid;
-    private HibernateGroupsEntity groupsByGroupUuid;
-    private HibernateUsersEntity usersByUserUuid;
+    private Collection<CommentsEntity> commentssByPostUuid;
+    private GroupsEntity groupsByGroupUuid;
+    private UsersEntity usersByUserUuid;
 
     @Id
     @Column(name = "post_uuid")
@@ -108,7 +109,7 @@ public class HibernatePostsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        HibernatePostsEntity that = (HibernatePostsEntity) o;
+        PostsEntity that = (PostsEntity) o;
 
         if (postUuid != null ? !postUuid.equals(that.postUuid) : that.postUuid != null) return false;
         if (groupUuid != null ? !groupUuid.equals(that.groupUuid) : that.groupUuid != null) return false;
@@ -137,31 +138,31 @@ public class HibernatePostsEntity {
     }
 
     @OneToMany(mappedBy = "postsByPostUuid")
-    public Collection<HibernateCommentsEntity> getCommentssByPostUuid() {
+    public Collection<CommentsEntity> getCommentssByPostUuid() {
         return commentssByPostUuid;
     }
 
-    public void setCommentssByPostUuid(Collection<HibernateCommentsEntity> commentssByPostUuid) {
+    public void setCommentssByPostUuid(Collection<CommentsEntity> commentssByPostUuid) {
         this.commentssByPostUuid = commentssByPostUuid;
     }
 
     @ManyToOne
     @JoinColumn(name = "group_uuid", referencedColumnName = "group_uuid")
-    public HibernateGroupsEntity getGroupsByGroupUuid() {
+    public GroupsEntity getGroupsByGroupUuid() {
         return groupsByGroupUuid;
     }
 
-    public void setGroupsByGroupUuid(HibernateGroupsEntity groupsByGroupUuid) {
+    public void setGroupsByGroupUuid(GroupsEntity groupsByGroupUuid) {
         this.groupsByGroupUuid = groupsByGroupUuid;
     }
 
     @ManyToOne
     @JoinColumn(name = "user_uuid", referencedColumnName = "user_uuid", nullable = false)
-    public HibernateUsersEntity getUsersByUserUuid() {
+    public UsersEntity getUsersByUserUuid() {
         return usersByUserUuid;
     }
 
-    public void setUsersByUserUuid(HibernateUsersEntity usersByUserUuid) {
+    public void setUsersByUserUuid(UsersEntity usersByUserUuid) {
         this.usersByUserUuid = usersByUserUuid;
     }
 }

@@ -1,4 +1,4 @@
-package org.wtiger.inno.litportal.dbtools.hibernate;
+package org.wtiger.inno.litportal.models.rows;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -9,15 +9,15 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "users", schema = "public", catalog = "litportal")
-public class HibernateUsersEntity {
+public class UsersEntity implements TableRow {
     private String login;
     private String password;
     private short role;
     private String email;
     private String visibleName;
     private UUID userUuid;
-    private Collection<HibernateCommentsEntity> commentssByUserUuid;
-    private Collection<HibernatePostsEntity> postssByUserUuid;
+    private Collection<CommentsEntity> commentssByUserUuid;
+    private Collection<PostsEntity> postssByUserUuid;
 
     @Basic
     @Column(name = "login")
@@ -84,7 +84,7 @@ public class HibernateUsersEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        HibernateUsersEntity that = (HibernateUsersEntity) o;
+        UsersEntity that = (UsersEntity) o;
 
         if (role != that.role) return false;
         if (login != null ? !login.equals(that.login) : that.login != null) return false;
@@ -108,20 +108,20 @@ public class HibernateUsersEntity {
     }
 
     @OneToMany(mappedBy = "usersByUserUuid")
-    public Collection<HibernateCommentsEntity> getCommentssByUserUuid() {
+    public Collection<CommentsEntity> getCommentssByUserUuid() {
         return commentssByUserUuid;
     }
 
-    public void setCommentssByUserUuid(Collection<HibernateCommentsEntity> commentssByUserUuid) {
+    public void setCommentssByUserUuid(Collection<CommentsEntity> commentssByUserUuid) {
         this.commentssByUserUuid = commentssByUserUuid;
     }
 
     @OneToMany(mappedBy = "usersByUserUuid")
-    public Collection<HibernatePostsEntity> getPostssByUserUuid() {
+    public Collection<PostsEntity> getPostssByUserUuid() {
         return postssByUserUuid;
     }
 
-    public void setPostssByUserUuid(Collection<HibernatePostsEntity> postssByUserUuid) {
+    public void setPostssByUserUuid(Collection<PostsEntity> postssByUserUuid) {
         this.postssByUserUuid = postssByUserUuid;
     }
 }

@@ -5,25 +5,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wtiger.inno.litportal.dbtools.DAOUsers;
 import org.wtiger.inno.litportal.dbtools.exceptions.DBException;
-import org.wtiger.inno.litportal.models.rows.TableRowUsers;
+import org.wtiger.inno.litportal.models.rows.UsersEntity;
 import org.wtiger.inno.litportal.services.ServiceUsers;
 import org.wtiger.inno.litportal.services.exceptions.serviceException;
+
+import java.util.UUID;
 
 @Service
 public class ServiceUsersCommon implements ServiceUsers {
     private static Logger logger = Logger.getLogger(ServiceUsersCommon.class);
-    private DAOUsers daoUsers;
+    private DAOUsers<UsersEntity, UUID> daoUsers;
 
     @Autowired
-    public void setDaoUsers(DAOUsers daoUsers) {
+    public void setDaoUsers(DAOUsers<UsersEntity, UUID> daoUsers) {
         this.daoUsers = daoUsers;
     }
 
     @Override
-    public TableRowUsers getUserByLogin(String login) throws serviceException {
-        TableRowUsers user = null;
+    public UsersEntity getUserByLogin(String login) throws serviceException {
+        UsersEntity user = null;
         try {
-            user = daoUsers.getObjectByLogin(login);
+            user = daoUsers.getByLogin(login);
         } catch (DBException e) {
             String msg = "Ошибка получения пользователя по логину.";
             logger.error(msg, e);
@@ -36,9 +38,9 @@ public class ServiceUsersCommon implements ServiceUsers {
     @Override
     public boolean RegisterNewUser(String login, String password, String email, String visible_name) {
         boolean result = false;
-        TableRowUsers user = new TableRowUsers(null, login, password, 0L, email, visible_name);
+        UsersEntity user = daoUsers.getNewEntity(login, password, (short) 0, email, visible_name);
         try {
-            daoUsers.loadObjToDB(user);
+            daoUsers.persist(user);
             result = true;
         } catch (DBException e) {
             logger.error("Не удалось зарегистрировать пользователя: "

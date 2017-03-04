@@ -1,4 +1,4 @@
-package org.wtiger.inno.litportal.dbtools.hibernate;
+package org.wtiger.inno.litportal.models.rows;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -10,17 +10,17 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "comments", schema = "public", catalog = "litportal")
-public class HibernateCommentsEntity {
+public class CommentsEntity implements TableRow {
     private UUID commentUuid;
     private UUID postUuid;
     private UUID parentCommentUuid;
     private String body;
     private Timestamp date;
     private UUID userUuid;
-    private HibernatePostsEntity postsByPostUuid;
-    private HibernateCommentsEntity commentsByParentCommentUuid;
-    private Collection<HibernateCommentsEntity> commentssByCommentUuid;
-    private HibernateUsersEntity usersByUserUuid;
+    private PostsEntity postsByPostUuid;
+    private CommentsEntity commentsByParentCommentUuid;
+    private Collection<CommentsEntity> commentssByCommentUuid;
+    private UsersEntity usersByUserUuid;
 
     @Id
     @Column(name = "comment_uuid")
@@ -87,7 +87,7 @@ public class HibernateCommentsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        HibernateCommentsEntity that = (HibernateCommentsEntity) o;
+        CommentsEntity that = (CommentsEntity) o;
 
         if (commentUuid != null ? !commentUuid.equals(that.commentUuid) : that.commentUuid != null) return false;
         if (postUuid != null ? !postUuid.equals(that.postUuid) : that.postUuid != null) return false;
@@ -113,40 +113,40 @@ public class HibernateCommentsEntity {
 
     @ManyToOne
     @JoinColumn(name = "post_uuid", referencedColumnName = "post_uuid", nullable = false)
-    public HibernatePostsEntity getPostsByPostUuid() {
+    public PostsEntity getPostsByPostUuid() {
         return postsByPostUuid;
     }
 
-    public void setPostsByPostUuid(HibernatePostsEntity postsByPostUuid) {
+    public void setPostsByPostUuid(PostsEntity postsByPostUuid) {
         this.postsByPostUuid = postsByPostUuid;
     }
 
     @ManyToOne
     @JoinColumn(name = "parent_comment_uuid", referencedColumnName = "comment_uuid")
-    public HibernateCommentsEntity getCommentsByParentCommentUuid() {
+    public CommentsEntity getCommentsByParentCommentUuid() {
         return commentsByParentCommentUuid;
     }
 
-    public void setCommentsByParentCommentUuid(HibernateCommentsEntity commentsByParentCommentUuid) {
+    public void setCommentsByParentCommentUuid(CommentsEntity commentsByParentCommentUuid) {
         this.commentsByParentCommentUuid = commentsByParentCommentUuid;
     }
 
     @OneToMany(mappedBy = "commentsByParentCommentUuid")
-    public Collection<HibernateCommentsEntity> getCommentssByCommentUuid() {
+    public Collection<CommentsEntity> getCommentssByCommentUuid() {
         return commentssByCommentUuid;
     }
 
-    public void setCommentssByCommentUuid(Collection<HibernateCommentsEntity> commentssByCommentUuid) {
+    public void setCommentssByCommentUuid(Collection<CommentsEntity> commentssByCommentUuid) {
         this.commentssByCommentUuid = commentssByCommentUuid;
     }
 
     @ManyToOne
     @JoinColumn(name = "user_uuid", referencedColumnName = "user_uuid", nullable = false)
-    public HibernateUsersEntity getUsersByUserUuid() {
+    public UsersEntity getUsersByUserUuid() {
         return usersByUserUuid;
     }
 
-    public void setUsersByUserUuid(HibernateUsersEntity usersByUserUuid) {
+    public void setUsersByUserUuid(UsersEntity usersByUserUuid) {
         this.usersByUserUuid = usersByUserUuid;
     }
 }

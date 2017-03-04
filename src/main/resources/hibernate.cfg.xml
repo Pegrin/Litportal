@@ -9,10 +9,10 @@
         <property name="c3p0.minPoolSize">3</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">123</property>
-        <mapping class="org.wtiger.inno.litportal.dbtools.hibernate.HibernateCommentsEntity"/>
-        <mapping class="org.wtiger.inno.litportal.dbtools.hibernate.HibernateGroupsEntity"/>
-        <mapping class="org.wtiger.inno.litportal.dbtools.hibernate.HibernatePostsEntity"/>
-        <mapping class="org.wtiger.inno.litportal.dbtools.hibernate.HibernateUsersEntity"/>
+        <mapping class="org.wtiger.inno.litportal.models.rows.CommentsEntity"/>
+        <mapping class="org.wtiger.inno.litportal.models.rows.GroupsEntity"/>
+        <mapping class="org.wtiger.inno.litportal.models.rows.PostsEntity"/>
+        <mapping class="org.wtiger.inno.litportal.models.rows.UsersEntity"/>
 
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->

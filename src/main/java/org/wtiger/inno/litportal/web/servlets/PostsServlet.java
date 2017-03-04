@@ -4,8 +4,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-import org.wtiger.inno.litportal.models.rows.TableRowGroups;
-import org.wtiger.inno.litportal.models.rows.TableRowPosts;
+import org.wtiger.inno.litportal.models.rows.GroupsEntity;
+import org.wtiger.inno.litportal.models.rows.PostsEntity;
 import org.wtiger.inno.litportal.services.ServiceGroups;
 import org.wtiger.inno.litportal.services.ServicePosts;
 import org.wtiger.inno.litportal.services.exceptions.serviceException;
@@ -17,7 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Controller
 @WebServlet(urlPatterns = "/posts", loadOnStartup = 1, name = "posts")
@@ -43,11 +44,14 @@ public class PostsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String group_uuid = (String) req.getParameter("group_uuid");
+        String group_uuid_parameter = req.getParameter("group_uuid");
+        UUID group_uuid = null;
+        if (group_uuid_parameter != null)
+            group_uuid = UUID.fromString(group_uuid_parameter);
         try {
-            ArrayList<TableRowGroups> groups = serviceGroups.getListOfGroupsByParentID(group_uuid);
-            TableRowGroups group = serviceGroups.getObjectById(group_uuid);
-            ArrayList<TableRowPosts> posts = servicePosts.getPostsByGroupID(group_uuid);
+            GroupsEntity group = serviceGroups.getObjectById(group_uuid);
+            List<GroupsEntity> groups = serviceGroups.getListOfGroupsByParentID(group_uuid);
+            List<PostsEntity> posts = servicePosts.getPostsByGroupID(group_uuid);
             req.setAttribute("group", group);
             req.setAttribute("groups", groups);
             req.setAttribute("posts", posts);

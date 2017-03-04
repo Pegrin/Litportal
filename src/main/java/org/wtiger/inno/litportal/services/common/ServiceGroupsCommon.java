@@ -5,17 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wtiger.inno.litportal.dbtools.DAOGroups;
 import org.wtiger.inno.litportal.dbtools.exceptions.DBException;
-import org.wtiger.inno.litportal.models.rows.TableRowGroups;
+import org.wtiger.inno.litportal.models.rows.GroupsEntity;
 import org.wtiger.inno.litportal.services.ServiceGroups;
 import org.wtiger.inno.litportal.services.exceptions.serviceException;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ServiceGroupsCommon implements ServiceGroups {
     private static Logger logger = Logger.getLogger(ServiceUsersCommon.class);
-    private DAOGroups daoGroups;
+    private DAOGroups<GroupsEntity, UUID> daoGroups;
 
     @Autowired
     public void setDaoGroups(DAOGroups daoGroups) {
@@ -23,10 +23,10 @@ public class ServiceGroupsCommon implements ServiceGroups {
     }
 
     @Override
-    public TableRowGroups getObjectById(String group_uuid) throws serviceException {
-        TableRowGroups rowGroups = null;
+    public GroupsEntity getObjectById(UUID group_uuid) throws serviceException {
+        GroupsEntity rowGroups = null;
         try {
-            rowGroups = daoGroups.getObjectByID(group_uuid);
+            rowGroups = daoGroups.findByID(group_uuid);
         } catch (DBException e) {
             String msg = "Не удалось получить группу по ID";
             logger.error(msg, e);
@@ -40,18 +40,17 @@ public class ServiceGroupsCommon implements ServiceGroups {
 
 
     @Override
-    public ArrayList<TableRowGroups> getListOfGroupsByParentID(String group_uuid) throws serviceException {
-        ArrayList<TableRowGroups> groups = null;
+    public List<GroupsEntity> getListOfGroupsByParentID(UUID group_uuid) throws serviceException {
+        List<GroupsEntity> groups = null;
         try {
-            groups = daoGroups.getGroupsByParentID(group_uuid);
-        } catch (SQLException e) {
+            groups = daoGroups.findByParentID(group_uuid);
+        } catch (DBException e) {
             String msg = "Не удалось получить список групп по родительскому ID";
             logger.error(msg, e);
             throw new serviceException(msg);
         } catch (Exception e) {
             logger.warn("Ошибка при закрытии DAO групп.");
         }
-
         return groups;
     }
 }

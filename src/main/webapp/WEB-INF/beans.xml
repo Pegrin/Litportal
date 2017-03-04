@@ -6,7 +6,7 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
     <context:annotation-config/>
-    <context:component-scan base-package="org.wtiger.inno.litportal.dbtools.postgres"/>
+    <context:component-scan base-package="org.wtiger.inno.litportal.dbtools"/>
     <context:component-scan base-package="org.wtiger.inno.litportal.services"/>
     <context:component-scan base-package="org.wtiger.inno.litportal.web"/>
 </beans>
