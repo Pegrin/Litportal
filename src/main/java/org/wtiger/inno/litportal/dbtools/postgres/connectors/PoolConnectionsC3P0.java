@@ -61,10 +61,6 @@ public class PoolConnectionsC3P0 implements PoolConnections {
 
     @Override
     public void destroyPool() {
-        try {
-            cpds.close();
-        } catch (SQLException e) {
-            logger.warn("Не удалось закрыть пул подключений к базе. Теперь с этим жить.", e);
-        }
+        cpds.close();
     }
 }

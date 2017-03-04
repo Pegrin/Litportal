@@ -1,29 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Users>
+    <User userUuid="1d96f84e-0fff-42c4-bc71-bdd3645e3282">
+        <login>Pegrin</login>
+        <password>c78eb44bdd427abcfdf167f46fd9ecd40864d8ccb54a95631fec3b5cb19f33b5</password>
+        <email>asdasdas</email>
+        <visible_name>Именованный Чувак</visible_name>
+        <role>2</role>
+    </User>
+    <User userUuid="846a9e1d-353d-41f4-ad01-1dae45f5f07a">
+        <login>qwe</login>
+        <password>8660168e25755c8a89a4fec6cb9dcb9ea645c82f6d9392e1b33b791348ce1d45</password>
+        <email>qwe</email>
+        <visible_name>qwe</visible_name>
+        <role>0</role>
+    </User>
+    <User userUuid="cb7e073f-0a02-4570-a44f-206d6e25e15f">
+        <login></login>
+        <password>0f8ae9c090bcdd614c0a6c3b30089dcb160b4f4846e8f26e42b24f2f07a9bd30</password>
+        <email></email>
+        <visible_name></visible_name>
+        <role>0</role>
+    </User>
+    <User userUuid="f46a882d-38d9-4577-82af-5230f7554959">
+        <login>User1</login>
+        <password>3b732c54e769434698a4881d03f365647e6e67245ab36ae64945af11546478a7</password>
+        <email>mail@mail.ru</email>
+        <visible_name>ÐÐ¾Ð»ÑÐ·Ð¾Ð²Ð°ÑÐµÐ»Ñ</visible_name>
+        <role>0</role>
+    </User>
+    <User userUuid="9eadaab8-0524-4422-b71e-8f1218ab0f54">
+        <login>111</login>
+        <password>62ca3a479e07b6d28951d3c8c322c08f0437f71f6b1df2a5c877e790d04754b7</password>
+        <email>111@mail.ru</email>
+        <visible_name>111</visible_name>
+        <role>0</role>
+    </User>
     <User userUuid="79f009e6-8fa7-4226-9849-ebe7d854c05c">
         <login>Пушкин</login>
-        <password>123213</password>
+        <password>c78eb44bdd427abcfdf167f46fd9ecd40864d8ccb54a95631fec3b5cb19f33b5</password>
         <email>pushkin@gmail.com</email>
         <visible_name>Александр Сергеевич</visible_name>
         <role>1</role>
     </User>
     <User userUuid="076e6bff-0d4c-4087-837c-d0acdb9c0669">
         <login>Шмегрин</login>
-        <password>asd222</password>
+        <password>c78eb44bdd427abcfdf167f46fd9ecd40864d8ccb54a95631fec3b5cb19f33b5</password>
         <email>shmegrin@mail.ru</email>
         <visible_name>Виктор 1111</visible_name>
         <role>1</role>
     </User>
-    <User userUuid="1d96f84e-0fff-42c4-bc71-bdd3645e3282">
-        <login>normallogin</login>
-        <password>asdasdasdas</password>
-        <email>asdasdas</email>
-        <visible_name>Именованный Чувак</visible_name>
-        <role>2</role>
-    </User>
     <User userUuid="28ff4a7a-c222-4409-b194-e2d09177bc81">
         <login>Koloborod</login>
-        <password>2343</password>
+        <password>c78eb44bdd427abcfdf167f46fd9ecd40864d8ccb54a95631fec3b5cb19f33b5</password>
         <email>f@gmail.com</email>
         <visible_name>Колоброд</visible_name>
         <role>4</role>
