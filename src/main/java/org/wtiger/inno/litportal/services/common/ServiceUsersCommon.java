@@ -7,7 +7,7 @@ import org.wtiger.inno.litportal.dbtools.DAOUsers;
 import org.wtiger.inno.litportal.dbtools.exceptions.DBException;
 import org.wtiger.inno.litportal.models.rows.UsersEntity;
 import org.wtiger.inno.litportal.services.ServiceUsers;
-import org.wtiger.inno.litportal.services.exceptions.serviceException;
+import org.wtiger.inno.litportal.services.exceptions.ServiceException;
 
 import java.util.UUID;
 
@@ -22,14 +22,14 @@ public class ServiceUsersCommon implements ServiceUsers {
     }
 
     @Override
-    public UsersEntity getUserByLogin(String login) throws serviceException {
+    public UsersEntity getUserByLogin(String login) throws ServiceException {
         UsersEntity user = null;
         try {
             user = daoUsers.getByLogin(login);
         } catch (DBException e) {
             String msg = "Ошибка получения пользователя по логину.";
             logger.error(msg, e);
-            throw new serviceException(msg);
+            throw new ServiceException(msg);
         }
         return user;
     }

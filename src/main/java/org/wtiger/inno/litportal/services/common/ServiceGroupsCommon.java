@@ -7,7 +7,7 @@ import org.wtiger.inno.litportal.dbtools.DAOGroups;
 import org.wtiger.inno.litportal.dbtools.exceptions.DBException;
 import org.wtiger.inno.litportal.models.rows.GroupsEntity;
 import org.wtiger.inno.litportal.services.ServiceGroups;
-import org.wtiger.inno.litportal.services.exceptions.serviceException;
+import org.wtiger.inno.litportal.services.exceptions.ServiceException;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,14 +23,14 @@ public class ServiceGroupsCommon implements ServiceGroups {
     }
 
     @Override
-    public GroupsEntity getObjectById(UUID group_uuid) throws serviceException {
+    public GroupsEntity getObjectById(UUID group_uuid) throws ServiceException {
         GroupsEntity rowGroups = null;
         try {
             rowGroups = daoGroups.findByID(group_uuid);
         } catch (DBException e) {
             String msg = "Не удалось получить группу по ID";
             logger.error(msg, e);
-            throw new serviceException(msg);
+            throw new ServiceException(msg);
         } catch (Exception e) {
             logger.warn("Ошибка при закрытии DAO групп.", e);
         }
@@ -40,14 +40,14 @@ public class ServiceGroupsCommon implements ServiceGroups {
 
 
     @Override
-    public List<GroupsEntity> getListOfGroupsByParentID(UUID group_uuid) throws serviceException {
+    public List<GroupsEntity> getListOfGroupsByParentID(UUID group_uuid) throws ServiceException {
         List<GroupsEntity> groups = null;
         try {
             groups = daoGroups.findByParentID(group_uuid);
         } catch (DBException e) {
             String msg = "Не удалось получить список групп по родительскому ID";
             logger.error(msg, e);
-            throw new serviceException(msg);
+            throw new ServiceException(msg);
         } catch (Exception e) {
             logger.warn("Ошибка при закрытии DAO групп.");
         }

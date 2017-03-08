@@ -20,6 +20,7 @@ dependencies {
     compile group: 'com.googlecode.rapid-framework', name: 'rapid-core', version: '4.0.5'
     compile group: 'org.springframework', name: 'spring-context', version: '4.3.5.RELEASE'
     compile group: 'org.springframework', name: 'spring-web', version: '4.3.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.5.RELEASE'
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.8.Final'
     compile group: 'org.hibernate', name: 'hibernate-c3p0', version: '5.2.8.Final'
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.8.Final'

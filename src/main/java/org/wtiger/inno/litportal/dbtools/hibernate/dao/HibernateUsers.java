@@ -38,8 +38,17 @@ public class HibernateUsers implements DAOUsers<UsersEntity, UUID> {
     @Override
     public UsersEntity getByLogin(String login) throws DBException {
         EntityManager em = emf.createEntityManager();
-        UsersEntity user = em.createQuery("select t from UsersEntity as t where t.login = :login", UsersEntity.class)
-                .setParameter("login", login).getSingleResult();
+        UsersEntity user;
+        try {
+            user = em.createQuery("select t from UsersEntity as t where t.login = :login", UsersEntity.class)
+                    .setParameter("login", login).getSingleResult();
+        } catch (javax.persistence.NoResultException e) {
+            user = null;
+        } catch (Exception e) {
+            String msg = "Ошибка при получении пользователя по логину.";
+            logger.error(msg, e);
+            throw new DBException();
+        }
         em.close();
         return user;
     }
@@ -47,14 +56,18 @@ public class HibernateUsers implements DAOUsers<UsersEntity, UUID> {
     @Override
     public void deleteAll() throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.createQuery("DELETE FROM UsersEntity").executeUpdate();
+        em.getTransaction().commit();
         em.close();
     }
 
     @Override
     public void persist(UsersEntity usersEntity) throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.persist(usersEntity);
+        em.getTransaction().commit();
         em.close();
     }
 
@@ -77,14 +90,18 @@ public class HibernateUsers implements DAOUsers<UsersEntity, UUID> {
     @Override
     public void update(UsersEntity usersEntity) throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.merge(usersEntity);
+        em.getTransaction().commit();
         em.close();
     }
 
     @Override
     public void delete(UsersEntity usersEntity) throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.remove(usersEntity);
+        em.getTransaction().commit();
         em.close();
     }
 }

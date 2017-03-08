@@ -4,24 +4,21 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wtiger.inno.litportal.models.rows.UsersEntity;
-import org.wtiger.inno.litportal.services.Authenticator;
+import org.wtiger.inno.litportal.services.AuthenticatorV2;
 import org.wtiger.inno.litportal.services.ServiceUsers;
 import org.wtiger.inno.litportal.services.exceptions.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by olymp on 26.02.2017.
+ * Created by olymp on 07.03.2017.
  */
 @Service
-@Deprecated
-public class AuthenticatorCommon implements Authenticator {
-    private static Logger logger = Logger.getLogger(AuthenticatorCommon.class);
+public class AuthenticatorForMVC implements AuthenticatorV2 {
+    private static Logger logger = Logger.getLogger(AuthenticatorForMVC.class);
     ServiceUsers serviceUsers;
 
     @Autowired
@@ -46,46 +43,35 @@ public class AuthenticatorCommon implements Authenticator {
         return sb.toString();
     }
 
-    private boolean isLoginedIn(HttpServletRequest req, HttpServletResponse resp) {
-        HttpSession session = req.getSession();
-        Object login = session.getAttribute("user");
-        boolean result = false;
-        if (login != null) {
-            result = true;
-            req.setAttribute("user", login);
-        }
-        return result;
-    }
-
     @Override
-    public boolean checkAuth(boolean redirectOnFail, HttpServletRequest req, HttpServletResponse resp) {
-        boolean result;
-        if (!isLoginedIn(req, resp)) {
-            result = false;
-            if (redirectOnFail) goToAuthPage(req, resp);
-        } else result = true;
-        return result;
-    }
-
-    @Override
-    public void goToAuthPage(HttpServletRequest req, HttpServletResponse resp) {
-        try {
-            resp.sendRedirect("./login");
-        } catch (IOException e) {
-            logger.warn("Не удалось перенаправить пользователя на страницу авторизации.", e);
-        }
-    }
-
-    @Override
-    public boolean authenticate(String login, String password, boolean redirectOnFail, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public boolean checkAuthentication(String login, String password) throws ServiceException {
         boolean result = false;
         UsersEntity user = null;
         try {
             user = serviceUsers.getUserByLogin(login);
         } catch (ServiceException e) {
             logger.error("Не удалось провести авторизацию пользователя.", e);
-            if (redirectOnFail) resp.sendRedirect("./error");
+            throw new ServiceException();
+        }
+        String passwordSHAPS = sha256PlusSalt(password != null ? password : "");
+        if (user != null && (user.getLogin().toLowerCase()).equals(login.toLowerCase())
+                && user.getPassword().equals(passwordSHAPS)) {
+            result = true;
+        } else {
+            result = false;
+        }
+        return result;
+    }
 
+    @Override
+    public boolean checkAuthenticationAndCreateSession(String login, String password, HttpServletRequest req) throws ServiceException {
+        boolean result = false;
+        UsersEntity user = null;
+        try {
+            user = serviceUsers.getUserByLogin(login);
+        } catch (ServiceException e) {
+            logger.error("Не удалось провести авторизацию пользователя.", e);
+            throw new ServiceException();
         }
         String passwordSHAPS = sha256PlusSalt(password != null ? password : "");
         HttpSession session = req.getSession(true);
@@ -93,16 +79,15 @@ public class AuthenticatorCommon implements Authenticator {
         if (user != null && (user.getLogin().toLowerCase()).equals(login.toLowerCase())
                 && user.getPassword().equals(passwordSHAPS)) {
             session.setAttribute("user", user);
-            return true;
+            result = true;
         } else {
-            if (redirectOnFail) goToAuthPage(req, resp);
+            result = false;
         }
         return result;
     }
 
     @Override
-    public void closeSession(HttpServletRequest req, HttpServletResponse resp) {
-        HttpSession session = req.getSession(false);
+    public void closeSession(HttpSession session) {
         if (session != null) session.invalidate();
     }
 }

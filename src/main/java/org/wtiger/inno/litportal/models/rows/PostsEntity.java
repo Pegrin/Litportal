@@ -26,6 +26,7 @@ public class PostsEntity implements TableRow {
 
     @Id
     @Column(name = "post_uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public UUID getPostUuid() {
         return postUuid;
     }

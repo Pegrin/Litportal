@@ -24,4 +24,4 @@
         <a href="./registration">Зарегистрироваться</a>
     </div>
 </rapid:override>
-<%@ include file="mainpage.jsp" %>
+<%@ include file="/WEB-INF/views/mainpage.jsp" %>

@@ -24,6 +24,7 @@ public class CommentsEntity implements TableRow {
 
     @Id
     @Column(name = "comment_uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public UUID getCommentUuid() {
         return commentUuid;
     }

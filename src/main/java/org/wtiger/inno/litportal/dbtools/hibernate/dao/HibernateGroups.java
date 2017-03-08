@@ -51,14 +51,18 @@ public class HibernateGroups implements DAOGroups<GroupsEntity, UUID> {
     @Override
     public void deleteAll() throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.createQuery("DELETE FROM GroupsEntity ").executeUpdate();
+        em.getTransaction().commit();
         em.close();
     }
 
     @Override
     public void persist(GroupsEntity groupsEntity) throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.persist(groupsEntity);
+        em.getTransaction().commit();
         em.close();
     }
 
@@ -81,14 +85,18 @@ public class HibernateGroups implements DAOGroups<GroupsEntity, UUID> {
     @Override
     public void update(GroupsEntity groupsEntity) throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.merge(groupsEntity);
+        em.getTransaction().commit();
         em.close();
     }
 
     @Override
     public void delete(GroupsEntity groupsEntity) throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.remove(groupsEntity);
+        em.getTransaction().commit();
         em.close();
     }
 }

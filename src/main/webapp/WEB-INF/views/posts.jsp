@@ -47,7 +47,9 @@
             </c:forEach>
             <c:forEach items="${posts}" var="item">
                 <tr>
-                    <td><c:out value="${item.getHead()}"></c:out></td>
+                    <td><a href="./post?post_uuid=<c:out value="${item.postUuid}"></c:out>">
+                        <c:out value="${item.getHead()}">
+                        </c:out></a></td>
                     <td><c:out value="${item.usersByUserUuid.visibleName}"></c:out></td>
                     <td><c:out value="${item.getDate()}"></c:out></td>
                 </tr>
@@ -56,4 +58,4 @@
         </table>
     </div>
 </rapid:override>
-<%@ include file="mainpage.jsp" %>
+<%@ include file="/WEB-INF/views/mainpage.jsp" %>

@@ -11,15 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Created by olymp on 06.03.2017.
+ */
 @Controller
-@WebFilter(servletNames = {"AdminServlet", "PersonalCabinetServlet", "MainServlet"})
-public class MainFilter implements Filter {
+@WebFilter("/")
+public class LoginLogoutFilter implements Filter {
     private Authenticator authenticator;
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, filterConfig.getServletContext());
-    }
 
     @Autowired
     public void setAuthenticator(Authenticator authenticator) {
@@ -27,12 +25,14 @@ public class MainFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-        if (authenticator.checkAuth(false, (HttpServletRequest) req, (HttpServletResponse) resp)) {
-            chain.doFilter(req, resp);
-        } else {
-            ((HttpServletResponse) resp).sendRedirect("./posts");
-        }
+    public void init(FilterConfig filterConfig) throws ServletException {
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, filterConfig.getServletContext());
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        authenticator.checkAuth(false, (HttpServletRequest) request, (HttpServletResponse) response);
+        chain.doFilter(request, response);
     }
 
     @Override

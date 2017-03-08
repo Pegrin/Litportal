@@ -37,14 +37,18 @@ public class HibernateComments implements DAOComments<CommentsEntity, UUID, UUID
     @Override
     public void deleteAll() throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.createQuery("DELETE FROM CommentsEntity").executeUpdate();
+        em.getTransaction().commit();
         em.close();
     }
 
     @Override
     public void persist(CommentsEntity commentsEntity) throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.persist(commentsEntity);
+        em.getTransaction().commit();
         em.close();
     }
 
@@ -85,14 +89,18 @@ public class HibernateComments implements DAOComments<CommentsEntity, UUID, UUID
     @Override
     public void update(CommentsEntity commentsEntity) throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.merge(commentsEntity);
+        em.getTransaction().commit();
         em.close();
     }
 
     @Override
     public void delete(CommentsEntity commentsEntity) throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.remove(commentsEntity);
+        em.getTransaction().commit();
         em.close();
     }
 }

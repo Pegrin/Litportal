@@ -20,6 +20,7 @@ public class GroupsEntity implements TableRow {
 
     @Id
     @Column(name = "group_uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public UUID getGroupUuid() {
         return groupUuid;
     }

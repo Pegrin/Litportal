@@ -3,13 +3,13 @@ package org.wtiger.inno.litportal.services.exceptions;
 /**
  * Service level exception
  */
-public class serviceException extends Exception {
+public class ServiceException extends Exception {
 
-    public serviceException() {
+    public ServiceException() {
         super();
     }
 
-    public serviceException(String msg) {
+    public ServiceException(String msg) {
         super(msg);
 
     }

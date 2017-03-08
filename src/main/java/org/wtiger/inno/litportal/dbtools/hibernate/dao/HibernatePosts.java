@@ -39,14 +39,18 @@ public class HibernatePosts implements DAOPosts<PostsEntity, UUID, UUID, UUID> {
     @Override
     public void deleteAll() throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.createQuery("DELETE FROM PostsEntity").executeUpdate();
+        em.getTransaction().commit();
         em.close();
     }
 
     @Override
     public void persist(PostsEntity postsEntity) throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.persist(postsEntity);
+        em.getTransaction().commit();
         em.close();
     }
 
@@ -93,14 +97,18 @@ public class HibernatePosts implements DAOPosts<PostsEntity, UUID, UUID, UUID> {
     @Override
     public void update(PostsEntity postsEntity) throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.merge(postsEntity);
+        em.getTransaction().commit();
         em.close();
     }
 
     @Override
     public void delete(PostsEntity postsEntity) throws DBException {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         em.remove(postsEntity);
+        em.getTransaction().commit();
         em.close();
     }
 }

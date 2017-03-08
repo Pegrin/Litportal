@@ -18,6 +18,7 @@
     <orderEntry type="library" name="Gradle: com.googlecode.rapid-framework:rapid-core:4.0.5" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-context:4.3.5.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-web:4.3.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-webmvc:4.3.5.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-core:5.2.8.Final" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-c3p0:5.2.8.Final" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-entitymanager:5.2.8.Final" level="project" />

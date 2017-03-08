@@ -71,6 +71,7 @@ public class UsersEntity implements TableRow {
 
     @Id
     @Column(name = "user_uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public UUID getUserUuid() {
         return userUuid;
     }

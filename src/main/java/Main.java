@@ -37,6 +37,11 @@ public class Main {
         PostsEntity post = em.find(PostsEntity.class,
                 UUID.fromString("5d95b4a2-6f22-4c9f-aa7f-f2c2b4a0b27a"));
         System.out.println(post.getHead());
+//        return "redirect:" + redirectUrl;
+
+
+
+
 //            final Metamodel metamodel = session.getSessionFactory().getMetamodel();
 //            for (EntityType<?> entityType : metamodel.getEntities()) {
 //                final String entityName = entityType.getName();
