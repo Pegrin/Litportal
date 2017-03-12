@@ -2,12 +2,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--@elvariable id="post" type="org.wtiger.inno.litportal.models.rows.PostsEntity"--%>
+<%--@elvariable id="comment" type="org.wtiger.inno.litportal.models.rows.CommentsEntity"--%>
 <rapid:override name="main">
     <div class="main">
         <c:if test="${post!=null}">
             <h1 class="blog-post-title">${post.head}</h1>
+            <p class="blog-post-meta">Назад к группе
+                <a href="./posts?group_uuid=${post.groupUuid}">"${post.groupsByGroupUuid.head}"</a>
+            </p>
             <p class="blog-post-meta">${post.date}, автор: ${post.usersByUserUuid.visibleName}</p>
             <p>${post.body}</p>
+            <div class="comments-template">
+                <h3>Комментарии</h3>
+                <a href="#">Добавить комментарий</a>
+                <c:forEach items="${comments}" var="comment">
+                    <div id="${comment.commentUuid}" class="comment">
+                        <article class="comment-body">
+                            <div class="media-body">
+                                <h4>Автор: <a href="#">${comment.usersByUserUuid.visibleName}</a>
+                                    Дата: ${comment.date.toLocalDateTime()}</h4>
+                                <p>${comment.body}</p>
+                                <a href="#">Редактировать</a><br>
+                            </div>
+                        </article>
+                    </div>
+                </c:forEach>
+            </div>
         </c:if>
     </div>
 </rapid:override>

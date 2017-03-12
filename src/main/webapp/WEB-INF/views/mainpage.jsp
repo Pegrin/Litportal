@@ -35,9 +35,9 @@
     <rapid:block name="main">
         <div class="main">Основная страница</div>
     </rapid:block>
-    <rapid:block name="bottomline">
-        <div class="bottomline">Футер</div>
-    </rapid:block>
+    <%--<rapid:block name="bottomline">--%>
+    <%--<div class="bottomline">Футер</div>--%>
+    <%--</rapid:block>--%>
 </div>
 </body>
 </html>
