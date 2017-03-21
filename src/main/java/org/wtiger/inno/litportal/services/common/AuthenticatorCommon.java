@@ -3,7 +3,7 @@ package org.wtiger.inno.litportal.services.common;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.wtiger.inno.litportal.models.rows.UsersEntity;
+import org.wtiger.inno.litportal.models.pojo.UserPojo;
 import org.wtiger.inno.litportal.services.Authenticator;
 import org.wtiger.inno.litportal.services.ServiceUsers;
 import org.wtiger.inno.litportal.services.exceptions.ServiceException;
@@ -79,7 +79,7 @@ public class AuthenticatorCommon implements Authenticator {
     @Override
     public boolean authenticate(String login, String password, boolean redirectOnFail, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         boolean result = false;
-        UsersEntity user = null;
+        UserPojo user = null;
         try {
             user = serviceUsers.getUserByLogin(login);
         } catch (ServiceException e) {

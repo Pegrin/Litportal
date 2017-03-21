@@ -14,7 +14,7 @@
         <setting name="provider-name" value="" />
         <datasource-mapping>
           <factory-entry name="Entities" />
-          <factory-entry name="LITPORTAL" value="0f1825ff-11ae-44e0-b2fe-ff91ac39bb7b" />
+          <factory-entry name="LITPORTAL" value="5304e99a-128a-4167-9399-6028e5d55548" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/../../src/main/resources/META-INF/persistence.xml" />
       </configuration>

@@ -1,8 +1,8 @@
 <%@ taglib prefix="rapid" uri="http://www.rapid-framework.org.cn/rapid" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="group" type="org.wtiger.inno.litportal.models.rows.GroupsEntity"--%>
-<%--@elvariable id="groups" type="java.util.List<org.wtiger.inno.litportal.models.rows.GroupsEntity>"--%>
-<%--@elvariable id="posts" type="java.util.List<org.wtiger.inno.litportal.models.rows.PostsEntity>"--%>
+<%--@elvariable id="group" type="org.wtiger.inno.litportal.models.pojo.GroupPojo"--%>
+<%--@elvariable id="groups" type="java.util.List<org.wtiger.inno.litportal.models.pojo.GroupPojo>"--%>
+<%--@elvariable id="posts" type="java.util.List<org.wtiger.inno.litportal.models.pojo.PostPojo>"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <rapid:override name="main">
     <div class="main">
@@ -50,7 +50,8 @@
                     <td><a href="./post?post_uuid=<c:out value="${item.postUuid}"></c:out>">
                         <c:out value="${item.getHead()}">
                         </c:out></a></td>
-                    <td><c:out value="${item.usersByUserUuid.visibleName}"></c:out></td>
+                    <td><a href="./editUserProfile?userUuid=${item.usersByUserUuid.userUuid}"><c:out
+                            value="${item.usersByUserUuid.visibleName}"/></a></td>
                     <td><c:out value="${item.getDate()}"></c:out></td>
                 </tr>
             </c:forEach>

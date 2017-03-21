@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.wtiger.inno.litportal.dbtools.DAOPosts;
 import org.wtiger.inno.litportal.dbtools.exceptions.DBException;
 import org.wtiger.inno.litportal.dbtools.hibernate.SingletonEntityManagerFactory;
-import org.wtiger.inno.litportal.models.rows.PostsEntity;
+import org.wtiger.inno.litportal.models.hibernate.PostsEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -27,88 +27,124 @@ public class HibernatePosts implements DAOPosts<PostsEntity, UUID, UUID, UUID> {
 
     @Override
     public PostsEntity getNewEntity(UUID groupUuid, Timestamp date, String head, String newBodyRequest, UUID userUuid) {
-        PostsEntity post = new PostsEntity();
-        post.setGroupUuid(groupUuid);
-        post.setDate(date);
-        post.setHead(head);
-        post.setNewBodyRequest(newBodyRequest);
-        post.setUserUuid(userUuid);
+        PostsEntity post = new PostsEntity(null, groupUuid, date,
+                head, null, newBodyRequest, null, userUuid);
         return post;
     }
 
     @Override
     public void deleteAll() throws DBException {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM PostsEntity").executeUpdate();
-        em.getTransaction().commit();
-        em.close();
+        try {
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.createQuery("DELETE FROM PostsEntity ").executeUpdate();
+            em.getTransaction().commit();
+            em.close();
+        } catch (Exception e) {
+            logger.error("Ошибка работы с базой данных при удалении всех элементов таблицы", e);
+            throw new DBException();
+        }
     }
 
     @Override
     public void persist(PostsEntity postsEntity) throws DBException {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(postsEntity);
-        em.getTransaction().commit();
-        em.close();
+        try {
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.persist(postsEntity);
+            em.getTransaction().commit();
+            em.close();
+        } catch (Exception e) {
+            logger.error("Ошибка работы с базой данных при сохранении элемента", e);
+            throw new DBException();
+        }
     }
 
     @Override
     public List<PostsEntity> findAll() throws DBException {
-        EntityManager em = emf.createEntityManager();
-        List<PostsEntity> resultList = em.createQuery("from PostsEntity t", PostsEntity.class).getResultList();
-        em.close();
-        return resultList;
+        try {
+            EntityManager em = emf.createEntityManager();
+            List<PostsEntity> resultList = em.createQuery("from PostsEntity t", PostsEntity.class).getResultList();
+            em.close();
+            return resultList;
+        } catch (Exception e) {
+            logger.error("Ошибка работы с базой данных при получении всех элементов таблицы", e);
+            throw new DBException();
+        }
     }
 
     @Override
     public PostsEntity findByID(UUID uuid) throws DBException {
-        EntityManager em = emf.createEntityManager();
-        PostsEntity post = em.find(PostsEntity.class, uuid);
-        em.close();
-        return post;
+        try {
+            EntityManager em = emf.createEntityManager();
+            PostsEntity post = em.find(PostsEntity.class, uuid);
+            em.close();
+            return post;
+        } catch (Exception e) {
+            logger.error("Ошибка работы с базой данных при получении элемента", e);
+            throw new DBException();
+        }
     }
 
     @Override
     public List<PostsEntity> findByGroupID(UUID id) throws DBException {
-        EntityManager em = emf.createEntityManager();
-        List<PostsEntity> resultList;
-        if (id != null) {
-            resultList = em.createQuery("select t from PostsEntity as t where t.groupUuid = :id", PostsEntity.class)
-                    .setParameter("id", id).getResultList();
-        } else {
-            resultList = em.createQuery("select t from PostsEntity as t where t.groupUuid is null "
-                    , PostsEntity.class).getResultList();
+        try {
+            EntityManager em = emf.createEntityManager();
+            List<PostsEntity> resultList;
+            if (id != null) {
+                resultList = em.createQuery("select t from PostsEntity as t where t.groupUuid = :id", PostsEntity.class)
+                        .setParameter("id", id).getResultList();
+            } else {
+                resultList = em.createQuery("select t from PostsEntity as t where t.groupUuid is null "
+                        , PostsEntity.class).getResultList();
+            }
+            em.close();
+            return resultList;
+        } catch (Exception e) {
+            logger.error("Ошибка работы с базой данных при получении списка элементов", e);
+            throw new DBException();
         }
-        em.close();
-        return resultList;
     }
 
     @Override
     public List<PostsEntity> findByUserID(UUID id) throws DBException {
-        EntityManager em = emf.createEntityManager();
-        List<PostsEntity> resultList = em.createQuery("select t from PostsEntity as t where t.userUuid = :id", PostsEntity.class)
-                .setParameter("id", id).getResultList();
-        em.close();
-        return resultList;
+        try {
+            EntityManager em = emf.createEntityManager();
+            List<PostsEntity> resultList = em.createQuery("select t from PostsEntity as t where t.userUuid = :id", PostsEntity.class)
+                    .setParameter("id", id).getResultList();
+            em.close();
+            return resultList;
+        } catch (Exception e) {
+            logger.error("Ошибка работы с базой данных при получении списка элементов", e);
+            throw new DBException();
+        }
     }
 
     @Override
     public void update(PostsEntity postsEntity) throws DBException {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.merge(postsEntity);
-        em.getTransaction().commit();
-        em.close();
+        try {
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.merge(postsEntity);
+            em.getTransaction().commit();
+            em.close();
+        } catch (Exception e) {
+            logger.error("Ошибка работы с базой данных при обновлении элемента.", e);
+            throw new DBException();
+        }
     }
 
     @Override
     public void delete(PostsEntity postsEntity) throws DBException {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.remove(postsEntity);
-        em.getTransaction().commit();
-        em.close();
+        try {
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            em.remove(postsEntity);
+            em.getTransaction().commit();
+            em.close();
+        } catch (Exception e) {
+            logger.error("Ошибка работы с базой данных при удалении элемента", e);
+            throw new DBException();
+        }
     }
 }

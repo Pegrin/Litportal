@@ -1,7 +1,6 @@
-package org.wtiger.inno.litportal.models.rows;
+package org.wtiger.inno.litportal.models.hibernate;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.UUID;
 
 /**
@@ -16,8 +15,21 @@ public class UsersEntity implements TableRow {
     private String email;
     private String visibleName;
     private UUID userUuid;
-    private Collection<CommentsEntity> commentssByUserUuid;
-    private Collection<PostsEntity> postssByUserUuid;
+    private int version;
+    private Boolean enabled;
+
+    public UsersEntity() {
+    }
+
+    public UsersEntity(UUID userUuid, String login, String password, short role, String email, String visibleName, Boolean enabled) {
+        this.login = login;
+        this.password = password;
+        this.role = role;
+        this.email = email;
+        this.visibleName = visibleName;
+        this.userUuid = userUuid;
+        this.enabled = enabled;
+    }
 
     @Basic
     @Column(name = "login")
@@ -108,21 +120,23 @@ public class UsersEntity implements TableRow {
         return result;
     }
 
-    @OneToMany(mappedBy = "usersByUserUuid")
-    public Collection<CommentsEntity> getCommentssByUserUuid() {
-        return commentssByUserUuid;
+    @Version
+    @Column
+    public int getVersion() {
+        return version;
     }
 
-    public void setCommentssByUserUuid(Collection<CommentsEntity> commentssByUserUuid) {
-        this.commentssByUserUuid = commentssByUserUuid;
+    public void setVersion(int version) {
+        this.version = version;
     }
 
-    @OneToMany(mappedBy = "usersByUserUuid")
-    public Collection<PostsEntity> getPostssByUserUuid() {
-        return postssByUserUuid;
+    @Basic
+    @Column
+    public Boolean getEnabled() {
+        return enabled;
     }
 
-    public void setPostssByUserUuid(Collection<PostsEntity> postssByUserUuid) {
-        this.postssByUserUuid = postssByUserUuid;
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 }

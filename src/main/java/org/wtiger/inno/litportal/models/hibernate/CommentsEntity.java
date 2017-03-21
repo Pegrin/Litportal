@@ -1,8 +1,7 @@
-package org.wtiger.inno.litportal.models.rows;
+package org.wtiger.inno.litportal.models.hibernate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.UUID;
 
 /**
@@ -19,8 +18,20 @@ public class CommentsEntity implements TableRow {
     private UUID userUuid;
     private PostsEntity postsByPostUuid;
     private CommentsEntity commentsByParentCommentUuid;
-    private Collection<CommentsEntity> commentssByCommentUuid;
     private UsersEntity usersByUserUuid;
+    private Integer version;
+
+    public CommentsEntity() {
+    }
+
+    public CommentsEntity(UUID commentUuid, UUID postUuid, UUID parentCommentUuid, String body, Timestamp date, UUID userUuid) {
+        this.commentUuid = commentUuid;
+        this.postUuid = postUuid;
+        this.parentCommentUuid = parentCommentUuid;
+        this.body = body;
+        this.date = date;
+        this.userUuid = userUuid;
+    }
 
     @Id
     @Column(name = "comment_uuid")
@@ -34,7 +45,7 @@ public class CommentsEntity implements TableRow {
     }
 
     @Basic
-    @Column(name = "post_uuid", insertable = false, updatable = false)
+    @Column(name = "post_uuid", nullable = false)
     public UUID getPostUuid() {
         return postUuid;
     }
@@ -44,7 +55,7 @@ public class CommentsEntity implements TableRow {
     }
 
     @Basic
-    @Column(name = "parent_comment_uuid", insertable = false, updatable = false)
+    @Column(name = "parent_comment_uuid")
     public UUID getParentCommentUuid() {
         return parentCommentUuid;
     }
@@ -74,7 +85,7 @@ public class CommentsEntity implements TableRow {
     }
 
     @Basic
-    @Column(name = "user_uuid", insertable = false, updatable = false)
+    @Column(name = "user_uuid", nullable = false)
     public UUID getUserUuid() {
         return userUuid;
     }
@@ -113,7 +124,8 @@ public class CommentsEntity implements TableRow {
     }
 
     @ManyToOne
-    @JoinColumn(name = "post_uuid", referencedColumnName = "post_uuid", nullable = false)
+    @JoinColumn(name = "post_uuid", referencedColumnName = "post_uuid"
+            , insertable = false, updatable = false)
     public PostsEntity getPostsByPostUuid() {
         return postsByPostUuid;
     }
@@ -123,7 +135,8 @@ public class CommentsEntity implements TableRow {
     }
 
     @ManyToOne
-    @JoinColumn(name = "parent_comment_uuid", referencedColumnName = "comment_uuid")
+    @JoinColumn(name = "parent_comment_uuid", referencedColumnName = "comment_uuid"
+            , insertable = false, updatable = false)
     public CommentsEntity getCommentsByParentCommentUuid() {
         return commentsByParentCommentUuid;
     }
@@ -132,22 +145,23 @@ public class CommentsEntity implements TableRow {
         this.commentsByParentCommentUuid = commentsByParentCommentUuid;
     }
 
-    @OneToMany(mappedBy = "commentsByParentCommentUuid")
-    public Collection<CommentsEntity> getCommentssByCommentUuid() {
-        return commentssByCommentUuid;
-    }
-
-    public void setCommentssByCommentUuid(Collection<CommentsEntity> commentssByCommentUuid) {
-        this.commentssByCommentUuid = commentssByCommentUuid;
-    }
-
     @ManyToOne
-    @JoinColumn(name = "user_uuid", referencedColumnName = "user_uuid", nullable = false)
+    @JoinColumn(name = "user_uuid", referencedColumnName = "user_uuid", insertable = false, updatable = false)
     public UsersEntity getUsersByUserUuid() {
         return usersByUserUuid;
     }
 
     public void setUsersByUserUuid(UsersEntity usersByUserUuid) {
         this.usersByUserUuid = usersByUserUuid;
+    }
+
+    @Version
+    @Column
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

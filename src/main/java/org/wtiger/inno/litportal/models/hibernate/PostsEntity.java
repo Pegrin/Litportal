@@ -1,9 +1,8 @@
-package org.wtiger.inno.litportal.models.rows;
+package org.wtiger.inno.litportal.models.hibernate;
 
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.UUID;
 
 /**
@@ -20,9 +19,23 @@ public class PostsEntity implements TableRow {
     private String newBodyRequest;
     private Boolean commit;
     private UUID userUuid;
-    private Collection<CommentsEntity> commentssByPostUuid;
     private GroupsEntity groupsByGroupUuid;
     private UsersEntity usersByUserUuid;
+    private int version;
+
+    public PostsEntity() {
+    }
+
+    public PostsEntity(UUID postUuid, UUID groupUuid, Timestamp date, String head, String body, String newBodyRequest, Boolean commit, UUID userUuid) {
+        this.postUuid = postUuid;
+        this.groupUuid = groupUuid;
+        this.date = date;
+        this.head = head;
+        this.body = body;
+        this.newBodyRequest = newBodyRequest;
+        this.commit = commit;
+        this.userUuid = userUuid;
+    }
 
     @Id
     @Column(name = "post_uuid")
@@ -36,7 +49,7 @@ public class PostsEntity implements TableRow {
     }
 
     @Basic
-    @Column(name = "group_uuid", insertable = false, updatable = false)
+    @Column(name = "group_uuid")
     public UUID getGroupUuid() {
         return groupUuid;
     }
@@ -96,7 +109,7 @@ public class PostsEntity implements TableRow {
     }
 
     @Basic
-    @Column(name = "user_uuid", insertable = false, updatable = false)
+    @Column(name = "user_uuid", nullable = false)
     public UUID getUserUuid() {
         return userUuid;
     }
@@ -138,17 +151,8 @@ public class PostsEntity implements TableRow {
         return result;
     }
 
-    @OneToMany(mappedBy = "postsByPostUuid")
-    public Collection<CommentsEntity> getCommentssByPostUuid() {
-        return commentssByPostUuid;
-    }
-
-    public void setCommentssByPostUuid(Collection<CommentsEntity> commentssByPostUuid) {
-        this.commentssByPostUuid = commentssByPostUuid;
-    }
-
     @ManyToOne
-    @JoinColumn(name = "group_uuid", referencedColumnName = "group_uuid")
+    @JoinColumn(name = "group_uuid", referencedColumnName = "group_uuid", insertable = false, updatable = false)
     public GroupsEntity getGroupsByGroupUuid() {
         return groupsByGroupUuid;
     }
@@ -158,12 +162,22 @@ public class PostsEntity implements TableRow {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_uuid", referencedColumnName = "user_uuid", nullable = false)
+    @JoinColumn(name = "user_uuid", referencedColumnName = "user_uuid", insertable = false, updatable = false)
     public UsersEntity getUsersByUserUuid() {
         return usersByUserUuid;
     }
 
     public void setUsersByUserUuid(UsersEntity usersByUserUuid) {
         this.usersByUserUuid = usersByUserUuid;
+    }
+
+    @Version
+    @Column
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

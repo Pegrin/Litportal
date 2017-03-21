@@ -12,7 +12,7 @@
 </rapid:override>
 <rapid:override name="main">
     <div class="main">
-        <h1>Критическая ошибка на сервере. Попробуйте обновить страницу позже.</h1>
+        <h1>Сбой службы БД на сервере. Попробуйте обновить страницу позже.</h1>
     </div>
 </rapid:override>
 <%@ include file="/WEB-INF/views/mainpage.jsp" %>

@@ -1,7 +1,6 @@
-package org.wtiger.inno.litportal.models.rows;
+package org.wtiger.inno.litportal.models.hibernate;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.UUID;
 
 /**
@@ -15,8 +14,17 @@ public class GroupsEntity implements TableRow {
     private String head;
     private String body;
     private GroupsEntity groupsByParentGroupUuid;
-    private Collection<GroupsEntity> groupssByGroupUuid;
-    private Collection<PostsEntity> postssByGroupUuid;
+    private int version;
+
+    public GroupsEntity() {
+    }
+
+    public GroupsEntity(UUID groupUuid, UUID parentGroupUuid, String head, String body) {
+        this.groupUuid = groupUuid;
+        this.parentGroupUuid = parentGroupUuid;
+        this.head = head;
+        this.body = body;
+    }
 
     @Id
     @Column(name = "group_uuid")
@@ -30,7 +38,7 @@ public class GroupsEntity implements TableRow {
     }
 
     @Basic
-    @Column(name = "parent_group_uuid", insertable = false, updatable = false)
+    @Column(name = "parent_group_uuid")
     public UUID getParentGroupUuid() {
         return parentGroupUuid;
     }
@@ -85,7 +93,7 @@ public class GroupsEntity implements TableRow {
     }
 
     @ManyToOne
-    @JoinColumn(name = "parent_group_uuid", referencedColumnName = "group_uuid")
+    @JoinColumn(name = "parent_group_uuid", referencedColumnName = "group_uuid", insertable = false, updatable = false)
     public GroupsEntity getGroupsByParentGroupUuid() {
         return groupsByParentGroupUuid;
     }
@@ -94,21 +102,13 @@ public class GroupsEntity implements TableRow {
         this.groupsByParentGroupUuid = groupsByParentGroupUuid;
     }
 
-    @OneToMany(mappedBy = "groupsByParentGroupUuid")
-    public Collection<GroupsEntity> getGroupssByGroupUuid() {
-        return groupssByGroupUuid;
+    @Version
+    @Column
+    public int getVersion() {
+        return version;
     }
 
-    public void setGroupssByGroupUuid(Collection<GroupsEntity> groupssByGroupUuid) {
-        this.groupssByGroupUuid = groupssByGroupUuid;
-    }
-
-    @OneToMany(mappedBy = "groupsByGroupUuid")
-    public Collection<PostsEntity> getPostssByGroupUuid() {
-        return postssByGroupUuid;
-    }
-
-    public void setPostssByGroupUuid(Collection<PostsEntity> postssByGroupUuid) {
-        this.postssByGroupUuid = postssByGroupUuid;
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

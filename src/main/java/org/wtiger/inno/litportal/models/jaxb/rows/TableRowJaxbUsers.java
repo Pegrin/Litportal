@@ -1,6 +1,6 @@
 package org.wtiger.inno.litportal.models.jaxb.rows;
 
-import org.wtiger.inno.litportal.models.rows.TableRow;
+import org.wtiger.inno.litportal.models.hibernate.TableRow;
 
 import javax.xml.bind.annotation.*;
 

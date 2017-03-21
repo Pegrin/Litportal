@@ -10,13 +10,13 @@
 <%@ taglib prefix="rapid" uri="http://www.rapid-framework.org.cn/rapid" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <rapid:override name="title">
-    <title>редактирование комментария</title>
+    <title>Авторизация</title>
 </rapid:override>
 <rapid:override name="main">
     <div class="main">
-        <div><h2>Редактирование комментария: </h2></div>
-        <form action="./editComment" method="post" class="form-signin center-pill registration-table">
-            <input type="text" name="commentUuid" style="display:none;" value="${commentUuid}">
+        <div><h2>Добавление комментария: </h2></div>
+        <form action="./addComment" method="post" class="form-signin center-pill registration-table">
+            <input type="text" name="commentUuid" style="display:none;" value="${postUuid}">
             <table>
                 <tr>
                     <td>Текст сообщения</td>

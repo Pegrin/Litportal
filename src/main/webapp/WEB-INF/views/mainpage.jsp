@@ -1,7 +1,7 @@
 <%@ taglib prefix="rapid" uri="http://www.rapid-framework.org.cn/rapid" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--@elvariable id="user" type="org.wtiger.inno.litportal.models.rows.UsersEntity"--%>
+<%--@elvariable id="user" type="org.wtiger.inno.litportal.models.hibernate.UsersEntity"--%>
 <html>
 <head>
     <rapid:block name="title">
@@ -19,7 +19,10 @@
     <rapid:block name="topline">
         <div class="header topline">
             <ul class="nav nav-pills pull-right">
-                <li class="active"><a class="nav-link active" href="./login">Личный кабинет<span class="sr-only">(current)</span></a>
+                <li class="active"><a class="nav-link active" href="
+                <c:if test="${user==null}">./login</c:if>
+                <c:if test="${user!=null}">./profile</c:if>
+                    ">Личный кабинет<span class="sr-only">(current)</span></a>
                 </li>
                 <li><c:if test="${user!=null}">
                     <a class="nav-link" href="./logout">Выйти</a>

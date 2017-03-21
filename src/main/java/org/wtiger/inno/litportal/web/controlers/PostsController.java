@@ -7,14 +7,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.wtiger.inno.litportal.models.rows.CommentsEntity;
-import org.wtiger.inno.litportal.models.rows.GroupsEntity;
-import org.wtiger.inno.litportal.models.rows.PostsEntity;
+import org.wtiger.inno.litportal.models.pojo.CommentPojo;
+import org.wtiger.inno.litportal.models.pojo.GroupPojo;
+import org.wtiger.inno.litportal.models.pojo.PostPojo;
+import org.wtiger.inno.litportal.models.pojo.UserPojo;
 import org.wtiger.inno.litportal.services.ServiceComments;
 import org.wtiger.inno.litportal.services.ServiceGroups;
 import org.wtiger.inno.litportal.services.ServicePosts;
 import org.wtiger.inno.litportal.services.exceptions.ServiceException;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,15 +54,16 @@ public class PostsController {
             group_uuid = UUID.fromString(groupUuidParameter);
         }
         try {
-            GroupsEntity group = serviceGroups.getObjectById(group_uuid);
-            List<GroupsEntity> groups = serviceGroups.getListOfGroupsByParentID(group_uuid);
-            List<PostsEntity> posts = servicePosts.getPostsByGroupID(group_uuid);
+            GroupPojo group = serviceGroups.getObjectById(group_uuid);
+            if (group != null) group.setBody(serviceGroups.TextToHTML(group.getBody()));
+            List<GroupPojo> groups = serviceGroups.getListOfGroupsByParentID(group_uuid);
+            List<PostPojo> posts = servicePosts.getPostsByGroupID(group_uuid);
             model.addAttribute("group", group);
             model.addAttribute("groups", groups);
             model.addAttribute("posts", posts);
             result = "posts";
         } catch (ServiceException e) {
-            logger.error("Сервиса при работе с главной страницей", e);
+            logger.error("Ошибка сервиса при работе с главной страницей", e);
             result = "dbError";
         }
         return result;
@@ -73,9 +76,11 @@ public class PostsController {
         if (postUuidParameter != null && !postUuidParameter.equals("")) {
             try {
                 UUID postUuid = UUID.fromString(postUuidParameter);
-                PostsEntity post = servicePosts.getPostByID(postUuid);
+                PostPojo post = servicePosts.getPostByID(postUuid);
+                if (post != null) post.setBody(servicePosts.TextToHTML(post.getBody()));
                 model.addAttribute("post", post);
-                List<CommentsEntity> comments = serviceComments.getCommentsByID(post.getPostUuid());
+                List<CommentPojo> comments = serviceComments.getCommentsByPostID(post.getPostUuid());
+                comments.forEach((el) -> el.setBody(serviceComments.TextToHTML(el.getBody())));
                 model.addAttribute("comments", comments);
                 result = "post";
             } catch (ServiceException e) {
@@ -86,6 +91,23 @@ public class PostsController {
             }
         } else {
             result = "postNotFound";
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/myPosts", method = RequestMethod.GET)
+    public String getMyPostsPage(Model model,
+                                 HttpSession session) {
+        String result = "myPosts";
+        try {
+            UserPojo userPojo = (UserPojo) session.getAttribute("user");
+            if (userPojo != null) {
+                List<PostPojo> posts = servicePosts.getPostsByUser(userPojo.getUserUuid());
+                model.addAttribute("posts", posts);
+            }
+        } catch (ServiceException e) {
+            logger.error("Ошибка сервиса при работе с главной страницей", e);
+            result = "dbError";
         }
         return result;
     }

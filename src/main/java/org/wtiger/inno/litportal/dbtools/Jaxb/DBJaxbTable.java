@@ -1,7 +1,7 @@
 package org.wtiger.inno.litportal.dbtools.Jaxb;
 
 import org.apache.log4j.Logger;
-import org.wtiger.inno.litportal.models.rows.TableRow;
+import org.wtiger.inno.litportal.models.hibernate.TableRow;
 import org.wtiger.inno.litportal.models.tables.Table;
 
 import java.sql.*;
