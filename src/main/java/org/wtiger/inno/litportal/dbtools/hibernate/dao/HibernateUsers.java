@@ -1,7 +1,6 @@
 package org.wtiger.inno.litportal.dbtools.hibernate.dao;
 
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Repository;
 import org.wtiger.inno.litportal.dbtools.DAOUsers;
 import org.wtiger.inno.litportal.dbtools.exceptions.DBException;
 import org.wtiger.inno.litportal.dbtools.hibernate.SingletonEntityManagerFactory;
@@ -15,7 +14,7 @@ import java.util.UUID;
 /**
  * Created by olymp on 05.03.2017.
  */
-@Repository
+//@Repository
 public class HibernateUsers implements DAOUsers<UsersEntity, UUID> {
     private Logger logger = Logger.getLogger(HibernateComments.class);
     private EntityManagerFactory emf;
