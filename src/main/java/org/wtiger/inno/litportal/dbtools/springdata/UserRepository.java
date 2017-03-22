@@ -14,5 +14,5 @@ import java.util.UUID;
 public interface UserRepository extends CrudRepository<UsersEntity, UUID> {
     UsersEntity findByLoginIgnoreCase(String login);
 
-    List<UsersEntity> findAllOrderByLogin();
+    List<UsersEntity> findAll();
 }

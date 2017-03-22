@@ -28,6 +28,6 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-orm', version: '4.3.+'
     compile group: 'org.springframework', name: 'spring-framework-bom', version: '4.3.+'
     compile group: 'org.springframework.data', name: 'spring-data-releasetrain', version: 'Ingalls-SR1'
-    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.11.+'
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.10.+'
     compile group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.25'
 }

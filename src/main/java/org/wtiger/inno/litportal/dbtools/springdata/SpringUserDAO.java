@@ -42,7 +42,7 @@ public class SpringUserDAO implements DAOUsers<UsersEntity, UUID> {
 
     @Override
     public List<UsersEntity> findAll() throws DBException {
-        return userRepository.findAllOrderByLogin();
+        return userRepository.findAll();
     }
 
     @Override

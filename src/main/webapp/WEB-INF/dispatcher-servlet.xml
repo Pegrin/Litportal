@@ -1,5 +1,6 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -10,35 +11,43 @@
     <context:component-scan base-package="org.wtiger.inno.litportal.services"/>
     <context:component-scan base-package="org.wtiger.inno.litportal.web"/>
     <context:component-scan base-package="org.wtiger.inno.litportal.models.utils"/>
+
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <!--&lt;!&ndash;Обеспечивает работу с транзакциями в Spring &ndash;&gt;-->
-    <!--<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">-->
-    <!--<property name="entityManagerFactory" ref="emf"/>-->
-    <!--</bean>-->
+    <!--Обеспечивает работу с транзакциями в Spring -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="emf"/>
+    </bean>
 
-    <!--&lt;!&ndash; EntityManagerFactory &ndash;&gt;-->
-    <!--<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
-    <!--<property name="dataSource" ref="dataSource" />-->
-    <!--&lt;!&ndash;Поставщик данных - hibernate&ndash;&gt;-->
-    <!--<property name="jpaVendorAdapter">-->
-    <!--<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />-->
-    <!--</property>-->
-    <!--&lt;!&ndash;поиск сущностей в этом пакете&ndash;&gt;-->
-    <!--<property name="packagesToScan" value="org.wtiger"/>-->
-    <!--</bean>-->
+    <!-- EntityManagerFactory -->
+    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
 
-    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
-    <!--<property name="url" value="jdbc:postgresql://localhost:5432/newdb"/>-->
-    <!--<property name="driverClassName" value="org.postgresql.Driver"/>-->
-    <!--<property name="username" value="postgres"/>-->
-    <!--<property name="password" value="sergtsop"/>-->
-    <!--</bean>-->
+        <!--Поставщик данных - hibernate-->
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
 
-    <!--&lt;!&ndash; Need for Repository abstraction &ndash;&gt;-->
-    <!--<jpa:repositories base-package="org.wtiger.inno.litportal.dbtools.springdata" entity-manager-factory-ref="emf"-->
-    <!--transaction-manager-ref="transactionManager"/>-->
+        <!--поиск сущностей в этом пакете-->
+        <property name="packagesToScan" value="org.wtiger.inno.litportal.models.hibernate"/>
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="url" value="jdbc:postgresql://localhost:5432/litportal"/>
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="username" value="postgres"/>
+        <property name="password" value="sergtsop"/>
+        <property name="connectionProperties">
+            <props>
+                <prop key="dialect">org.hibernate.dialect.PostgreSQL95Dialect</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Need for Repository abstraction -->
+    <jpa:repositories base-package="org.wtiger.inno.litportal" entity-manager-factory-ref="emf"
+                      transaction-manager-ref="transactionManager"/>
 </beans>
